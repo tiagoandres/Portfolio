@@ -9,19 +9,14 @@
 }
 
 .project-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s ease;
 }
 
 .project-card:hover {
     transform: translateY(-8px);
+    /* box-shadow and border color handled by glass-refraction optionally, or keep here */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border-color: rgba(59, 130, 246, 0.4);
 }
 
 .project-content {

@@ -1,9 +1,10 @@
 import React from 'react';
+import { Glass } from 'glass-refraction';
 import './Header.css';
 
 const Header = () => {
     return (
-        <header className="header">
+        <Glass as="header" className="header">
             <div className="header-container">
                 <div className="logo">Portafolio</div>
                 <nav className="nav-links">
@@ -14,7 +15,7 @@ const Header = () => {
                     <a href="#contact">Contacto</a>
                 </nav>
             </div>
-        </header>
+        </Glass>
     );
 };
 

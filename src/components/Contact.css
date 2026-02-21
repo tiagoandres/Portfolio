@@ -6,15 +6,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    overflow: hidden;
 }
 
 .contact-info {
     padding: 3rem;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
 }
 
 .contact-info h3 {

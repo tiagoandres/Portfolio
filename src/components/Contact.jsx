@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GlassCard } from 'glass-refraction';
 import './Contact.css';
 
 const Contact = () => {
@@ -16,7 +17,7 @@ const Contact = () => {
             <div className="container">
                 <h2 className="section-title">Contáctame</h2>
                 <div className="contact-wrapper">
-                    <div className="contact-info">
+                    <GlassCard className="contact-info">
                         <h3>Hablemos de tu próximo proyecto</h3>
                         <p className="contact-text">
                             Estoy disponible para oportunidades como Analista de Datos, consultorías en BI o simplemente para charlar sobre visualización de datos.
@@ -32,8 +33,8 @@ const Contact = () => {
                                 <a href="https://linkedin.com/in/tu-usuario" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                             </div>
                         </div>
-                    </div>
-                    <form className="contact-form" onSubmit={handleSubmit}>
+                    </GlassCard>
+                    <GlassCard as="form" className="contact-form" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="name">Nombre</label>
                             <input type="text" id="name" required placeholder="Tu nombre" />
@@ -48,7 +49,7 @@ const Contact = () => {
                         </div>
                         <button type="submit" className="btn btn-primary btn-block">Enviar Mensaje</button>
                         {status && <div className="status-message">{status}</div>}
-                    </form>
+                    </GlassCard>
                 </div>
             </div>
         </section>

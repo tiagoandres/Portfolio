@@ -11,6 +11,7 @@
 .hero-content {
     max-width: 800px;
     text-align: center;
+    padding: 3rem;
 }
 
 .hero-title {
@@ -23,6 +24,7 @@
     color: var(--primary-color);
     background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

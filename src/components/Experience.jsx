@@ -1,4 +1,5 @@
 import React from 'react';
+import { GlassCard } from 'glass-refraction';
 import './Experience.css';
 
 const Experience = () => {
@@ -34,12 +35,12 @@ const Experience = () => {
                     {experiences.map((exp) => (
                         <div key={exp.id} className="timeline-item">
                             <div className="timeline-dot"></div>
-                            <div className="timeline-content">
+                            <GlassCard className="timeline-content">
                                 <span className="period">{exp.period}</span>
                                 <h3 className="role">{exp.role}</h3>
                                 <h4 className="company">{exp.company}</h4>
                                 <p className="description">{exp.description}</p>
-                            </div>
+                            </GlassCard>
                         </div>
                     ))}
                 </div>

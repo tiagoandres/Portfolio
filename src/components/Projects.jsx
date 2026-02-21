@@ -1,4 +1,5 @@
 import React from 'react';
+import { GlassCard } from 'glass-refraction';
 import './Projects.css';
 
 const Projects = () => {
@@ -32,7 +33,7 @@ const Projects = () => {
                 <h2 className="section-title">Mis Proyectos</h2>
                 <div className="projects-grid">
                     {projects.map((project) => (
-                        <div key={project.id} className="project-card">
+                        <GlassCard key={project.id} className="project-card">
                             <div className="project-content">
                                 <h3 className="project-title">{project.title}</h3>
                                 <p className="project-desc">{project.description}</p>
@@ -47,7 +48,7 @@ const Projects = () => {
                                     Ver Proyecto &rarr;
                                 </a>
                             </div>
-                        </div>
+                        </GlassCard>
                     ))}
                 </div>
             </div>

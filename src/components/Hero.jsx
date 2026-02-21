@@ -1,10 +1,11 @@
 import React from 'react';
+import { GlassCard } from 'glass-refraction';
 import './Hero.css';
 
 const Hero = () => {
     return (
         <section id="hero" className="hero-section">
-            <div className="hero-content">
+            <GlassCard className="hero-content">
                 <h1 className="hero-title">
                     Hola, soy <span className="highlight">Santiago Cárdenas</span>
                 </h1>
@@ -16,7 +17,7 @@ const Hero = () => {
                     <a href="#projects" className="btn btn-primary">Ver mis proyectos</a>
                     <a href="#contact" className="btn btn-secondary">Contactar</a>
                 </div>
-            </div>
+            </GlassCard>
         </section>
     );
 };
