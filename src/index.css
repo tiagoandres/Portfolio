@@ -3,14 +3,31 @@
 
 :root {
   --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --bg-color: #0f172a; /* Dark slate */
+  --bg-color: #0f172a;
+  /* Dark slate */
   --text-color: #f8fafc;
-  --primary-color: #3b82f6; /* Blue */
-  --secondary-color: #8b5cf6; /* Purple */
-  --accent-color: #10b981; /* Emerald */
-  
-  --bg-surface: rgba(30, 41, 59, 0.7); /* For glassmorphism */
+  --primary-color: #3b82f6;
+  /* Blue */
+  --secondary-color: #8b5cf6;
+  /* Purple */
+  --accent-color: #10b981;
+  /* Emerald */
+
+  --bg-surface: rgba(30, 41, 59, 0.7);
+  /* For glassmorphism */
   --border-color: rgba(255, 255, 255, 0.1);
+
+  /* Glass Refraction Overrides for stronger effect */
+  --gr-blur: 32px;
+  --gr-blur-card: 24px;
+  --gr-saturation: 2.0;
+  --gr-saturation-card: 1.8;
+  --gr-bg-start: rgba(30, 41, 59, 0.2);
+  --gr-bg-end: rgba(15, 23, 42, 0.15);
+  --gr-chromatic-blue: rgba(0, 180, 255, 0.1);
+  --gr-chromatic-violet: rgba(120, 80, 255, 0.1);
+  --gr-chromatic-pink: rgba(255, 100, 200, 0.1);
+  --gr-chromatic-green: rgba(100, 255, 180, 0.1);
 }
 
 body {
@@ -56,7 +73,12 @@ section {
   border-bottom: 1px solid var(--border-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
   line-height: 1.2;
 }
