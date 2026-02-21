@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Allow glass-refraction dist to be tracked by git
+!glass-refraction/dist
+!glass-refraction/dist/**
