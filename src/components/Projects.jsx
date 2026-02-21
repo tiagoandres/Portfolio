@@ -5,23 +5,23 @@ const Projects = () => {
     const projects = [
         {
             id: 1,
-            title: "E-Commerce App",
-            description: "Plataforma de comercio electrónico completa con carrito de compras, pagos integrados y panel de administración.",
-            tech: ["React", "Node.js", "Stripe"],
+            title: "Dashboard de Ventas Interactivo",
+            description: "Visualización completa del funnel de ventas, análisis regional y KPIs de rendimiento comercial.",
+            tech: ["Power BI", "DAX", "SQL"],
             link: "#"
         },
         {
             id: 2,
-            title: "Task Management Board",
-            description: "Aplicación tipo Kanban para gestión de proyectos con funcionalidad drag-and-drop en tiempo real.",
-            tech: ["React", "Firebase", "Tailwind"],
+            title: "Segmentación de Clientes",
+            description: "Análisis de clúster para identificar segmentos de usuarios y mejorar la efectividad de campañas publicitarias.",
+            tech: ["Python", "Machine Learning", "Pandas"],
             link: "#"
         },
         {
             id: 3,
-            title: "Weather Dashboard",
-            description: "Dashboard meteorológico que muestra pronósticos detallados consumiendo apis externas de clima.",
-            tech: ["JavaScript", "HTML/CSS", "APIREST"],
+            title: "Reporte de Rendimiento SEO/SEM",
+            description: "Dashboard analítico para evaluar el rendimiento de campañas, clics, CTR e impresiones.",
+            tech: ["Looker Studio", "Google Analytics", "Google Ads"],
             link: "#"
         }
     ];

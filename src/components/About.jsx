@@ -9,21 +9,21 @@ const About = () => {
                 <div className="about-content">
                     <div className="about-text">
                         <p>
-                            Soy un apasionado del desarrollo de software, con un enfoque particular en crear interfaces de usuario limpias e intuitivas. Mi objetivo es convertir ideas complejas en productos digitales accesibles y eficientes.
+                            Soy un profesional híbrido con una combinación única: Licenciado en Psicología Clínica y Especialista en Análisis de Datos. Esto me permite no solo procesar información técnica, sino también entender el comportamiento humano detrás de los números.
                         </p>
                         <p>
-                            Constantemente estoy aprendiendo nuevas tecnologías y mejores prácticas para mejorar la calidad del software que produzco.
+                            Me enfoco en el análisis de mercado, la inteligencia de negocios y la creación de dashboards interactivos. Mi objetivo es transformar datos sin procesar en decisiones estratégicas claras.
                         </p>
                     </div>
                     <div className="skills-container">
                         <h3>Habilidades Destacadas</h3>
                         <ul className="skills-list">
-                            <li>React & Redux</li>
-                            <li>JavaScript (ES6+)</li>
-                            <li>HTML5 & CSS3</li>
-                            <li>Node.js (Básico)</li>
-                            <li>Git & GitHub</li>
-                            <li>UI/UX Design UI</li>
+                            <li>Power BI & Looker Studio</li>
+                            <li>Python & R</li>
+                            <li>SQL & Bases de Datos</li>
+                            <li>Machine Learning</li>
+                            <li>Google Ads, Meta Ads & Semrush</li>
+                            <li>Psicometría & Estadística Aplicada</li>
                         </ul>
                     </div>
                 </div>

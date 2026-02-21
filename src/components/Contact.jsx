@@ -19,18 +19,17 @@ const Contact = () => {
                     <div className="contact-info">
                         <h3>Hablemos de tu próximo proyecto</h3>
                         <p className="contact-text">
-                            Estoy disponible para oportunidades freelance, trabajos a tiempo completo o simplemente para charlar sobre desarrollo web.
+                            Estoy disponible para oportunidades como Analista de Datos, consultorías en BI o simplemente para charlar sobre visualización de datos.
                         </p>
                         <div className="info-item">
                             <span className="info-label">Email</span>
-                            <a href="mailto:hola@ejemplo.com">hola@ejemplo.com</a>
+                            <a href="mailto:santiagoace1411@gmail.com">santiagoace1411@gmail.com</a>
                         </div>
                         <div className="info-item">
                             <span className="info-label">Sociales</span>
                             <div className="social-links">
-                                <a href="#">GitHub</a>
-                                <a href="#">LinkedIn</a>
-                                <a href="#">Twitter</a>
+                                <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer">GitHub</a>
+                                <a href="https://linkedin.com/in/tu-usuario" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                             </div>
                         </div>
                     </div>

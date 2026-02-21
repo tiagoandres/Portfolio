@@ -5,17 +5,24 @@ const Experience = () => {
     const experiences = [
         {
             id: 1,
-            role: "Desarrollador Frontend",
-            company: "Tech Solutions Inc.",
-            period: "2023 - Presente",
-            description: "Desarrollo y mantenimiento de interfaces de usuario utilizando React. Colaboración con equipos de diseño para implementar sistemas de diseño escalables."
+            role: "Analista de Inteligencia de Negocios",
+            company: "Back9",
+            period: "Nov. 2024 - Presente",
+            description: "Diseño y desarrollo de dashboards interactivos en Power BI. Análisis de mercado y competencia con Semrush y Google Ads. Modelos predictivos en Python/R."
         },
         {
             id: 2,
-            role: "Desarrollador Web Junior",
-            company: "Agencia Creativa",
-            period: "2021 - 2023",
-            description: "Creación de sitios web interactivos para clientes. Optimización de rendimiento web y SEO."
+            role: "Profesor por Concurso de Oposición",
+            company: "Universidad Central de Venezuela",
+            period: "Sep. 2022 - Ago. 2025",
+            description: "Docencia en Psicometría y Estadística. Supervisión de investigaciones cuantitativas y talleres de SPSS/Excel."
+        },
+        {
+            id: 3,
+            role: "Tutor Privado",
+            company: "Superprof.com",
+            period: "Ago. 2022 - Presente",
+            description: "Asesorías personalizadas en metodología y análisis de datos a más de 50 estudiantes en Europa y Latinoamérica."
         }
     ];
 
