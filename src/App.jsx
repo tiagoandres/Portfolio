@@ -5,8 +5,8 @@ import About from './components/About';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
-import { GlassFilters } from '../glass-refraction';
-import 'glass-refraction/css';
+import { GlassFilters } from "glass-refraction";
+import "glass-refraction/css";
 
 function App() {
   return (

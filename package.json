@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "glass-refraction": "file:./glass-refraction",
+    "glass-refraction": "file:glass-refraction",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
