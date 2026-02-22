@@ -24,6 +24,7 @@ const About = () => {
                             <li>Machine Learning</li>
                             <li>Google Ads, Meta Ads & Semrush</li>
                             <li>Psicometría & Estadística Aplicada</li>
+                            <li>Inteligencia artificial</li>
                         </ul>
                     </div>
                 </div>
