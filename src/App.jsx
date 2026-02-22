@@ -12,22 +12,24 @@ import Contact from './components/Contact';
 
 function App() {
   return (
-    <div className="portfolio-app">
+    <>
       <AnimatedBackground />
-      <GlassFilters />
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Publications />
-        <Contact />
-      </main>
-      <footer style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid var(--border-color)', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem' }}>
-        <p>&copy; {new Date().getFullYear()} Santiago. Diseñado en React.</p>
-      </footer>
-    </div>
+      <div className="portfolio-app">
+        <GlassFilters />
+        <Header />
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <Projects />
+          <Publications />
+          <Contact />
+        </main>
+        <footer style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid var(--border-color)', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem' }}>
+          <p>&copy; {new Date().getFullYear()} Santiago. Diseñado en React.</p>
+        </footer>
+      </div>
+    </>
   );
 }
 

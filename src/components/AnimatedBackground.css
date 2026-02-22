@@ -5,20 +5,21 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
+    background: #060609;
 }
 
 /* ─── Orbs ──────────────────────────────────────────────────── */
 .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(90px);
+    filter: blur(110px);
 }
 
 /* Purple — top-left */
 .orb-1 {
     width: 650px;
     height: 650px;
-    background: rgba(110, 30, 230, 0.55);
+    background: rgba(110, 30, 230, 0.32);
     top: -10%;
     left: -8%;
     animation: drift1 22s ease-in-out infinite;
@@ -28,7 +29,7 @@
 .orb-2 {
     width: 580px;
     height: 580px;
-    background: rgba(20, 80, 210, 0.50);
+    background: rgba(20, 80, 210, 0.28);
     top: -12%;
     right: -10%;
     animation: drift2 28s ease-in-out infinite;
@@ -38,7 +39,7 @@
 .orb-3 {
     width: 700px;
     height: 700px;
-    background: rgba(130, 20, 200, 0.45);
+    background: rgba(130, 20, 200, 0.25);
     top: 35%;
     left: 25%;
     transform: translateX(-50%);
@@ -49,7 +50,7 @@
 .orb-4 {
     width: 520px;
     height: 520px;
-    background: rgba(12, 100, 180, 0.50);
+    background: rgba(12, 100, 180, 0.28);
     bottom: -8%;
     right: -5%;
     animation: drift4 26s ease-in-out infinite;
@@ -59,7 +60,7 @@
 .orb-5 {
     width: 500px;
     height: 500px;
-    background: rgba(80, 20, 190, 0.48);
+    background: rgba(80, 20, 190, 0.26);
     bottom: -5%;
     left: 10%;
     animation: drift5 30s ease-in-out infinite;
@@ -69,7 +70,7 @@
 .orb-6 {
     width: 420px;
     height: 420px;
-    background: rgba(50, 60, 220, 0.42);
+    background: rgba(50, 60, 220, 0.24);
     top: 50%;
     right: 5%;
     animation: drift6 24s ease-in-out infinite;
