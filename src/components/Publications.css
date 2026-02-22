@@ -236,6 +236,16 @@
 }
 
 /* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .publications-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pub-content {
+        padding: 1.5rem;
+    }
+}
+
 @media (max-width: 600px) {
     .pdf-modal {
         height: 95vh;
@@ -244,9 +254,5 @@
 
     .pdf-modal-subtitle {
         display: none;
-    }
-
-    .publications-grid {
-        grid-template-columns: 1fr;
     }
 }

@@ -75,3 +75,25 @@
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+    .timeline {
+        padding-left: 1.25rem;
+    }
+
+    .timeline-dot {
+        left: -1.25rem;
+    }
+
+    .timeline-content {
+        padding: 1.25rem 1rem;
+    }
+
+    .role {
+        font-size: 1.15rem;
+    }
+
+    .timeline-content:hover {
+        transform: none;
+    }
+}

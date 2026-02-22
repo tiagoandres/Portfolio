@@ -5,40 +5,44 @@
     transform: translateX(-50%);
     width: 90%;
     max-width: 1200px;
-    height: 70px;
     border-radius: 999px;
     z-index: 1000;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
 }
 
 .header-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--primary-color);
+    white-space: nowrap;
 }
 
+/* ── Desktop nav ──────────────────────────────────────────── */
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
 }
 
 .nav-links a {
     color: var(--text-color);
     font-weight: 500;
-    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 999px;
-    position: relative;
+    white-space: nowrap;
     transition: all 0.3s ease;
 }
 
@@ -52,4 +56,119 @@
     color: #fff;
     font-weight: 600;
     backdrop-filter: blur(10px);
+}
+
+/* ── Hamburger (hidden on desktop) ─────────────────────────── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--text-color);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger.is-open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.is-open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ── Mobile drawer ──────────────────────────────────────────── */
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+}
+
+.mobile-nav {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88%;
+    max-width: 400px;
+    background: rgba(10, 15, 30, 0.92);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    animation: slideDown 0.25s ease;
+}
+
+.mobile-nav a {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1.05rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active {
+    background: rgba(59, 130, 246, 0.18);
+    color: #fff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* ── Responsive breakpoints ─────────────────────────────────── */
+@media (max-width: 768px) {
+    .header {
+        top: 12px;
+        border-radius: 20px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
 }

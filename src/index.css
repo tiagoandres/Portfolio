@@ -78,6 +78,19 @@ section {
   justify-content: center;
 }
 
+@media (max-width: 768px) {
+  section {
+    padding: 5rem 1.25rem 3rem;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 5rem 1rem 2.5rem;
+  }
+}
+
 h1,
 h2,
 h3,
