@@ -7,7 +7,7 @@ const Header = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ['hero', 'about', 'experience', 'projects', 'contact'];
+            const sections = ['hero', 'about', 'experience', 'projects', 'publications', 'contact'];
             let current = 'hero';
             for (const section of sections) {
                 const element = document.getElementById(section);
@@ -30,7 +30,7 @@ const Header = () => {
             <div className="header-container">
                 <div className="logo">Portafolio</div>
                 <nav className="nav-links">
-                    {['hero', 'about', 'experience', 'projects', 'contact'].map((id) => (
+                    {['hero', 'about', 'experience', 'projects', 'publications', 'contact'].map((id) => (
                         <a
                             key={id}
                             href={`#${id}`}
@@ -39,7 +39,8 @@ const Header = () => {
                             {id === 'hero' ? 'Inicio' :
                                 id === 'about' ? 'Sobre Mí' :
                                     id === 'experience' ? 'Experiencia' :
-                                        id === 'projects' ? 'Proyectos' : 'Contacto'}
+                                        id === 'projects' ? 'Proyectos' :
+                                            id === 'publications' ? 'Publicaciones' : 'Contacto'}
                         </a>
                     ))}
                 </nav>
