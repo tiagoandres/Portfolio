@@ -1,6 +1,7 @@
 import React from 'react';
 import { GlassFilters } from "glass-refraction";
 import "glass-refraction/css";
+import AnimatedBackground from './components/AnimatedBackground';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -12,6 +13,7 @@ import Contact from './components/Contact';
 function App() {
   return (
     <div className="portfolio-app">
+      <AnimatedBackground />
       <GlassFilters />
       <Header />
       <main>

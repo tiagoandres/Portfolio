@@ -1,6 +1,6 @@
 /* ── Section ───────────────────────────────────────────────── */
 .publications-section {
-    background: var(--bg-color);
+    background: transparent;
 }
 
 .publications-subtitle {
