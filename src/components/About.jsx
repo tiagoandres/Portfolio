@@ -18,26 +18,28 @@ const About = () => {
                         <div className="education-container">
                             <h3>Formación Académica</h3>
 
-                            <div className="edu-item">
-                                <h4 className="edu-degree">Especialización en Análisis de Datos en Ciencias Sociales</h4>
-                                <div className="edu-meta">
-                                    <span className="edu-school">Universidad Central de Venezuela</span>
-                                    <span className="edu-date">Abril 2024 – Abril 2026</span>
+                            <div className="edu-grid">
+                                <div className="edu-item">
+                                    <h4 className="edu-degree">Especialización en Análisis de Datos en Ciencias Sociales</h4>
+                                    <div className="edu-meta">
+                                        <span className="edu-school">Universidad Central de Venezuela</span>
+                                        <span className="edu-date">Abril 2024 – Abril 2026</span>
+                                    </div>
+                                    <p className="edu-details">
+                                        <strong>Contenido relevante:</strong> Análisis Exploratorio de Datos, Análisis Inferencial, Machine Learning, Análisis de Datos con R.
+                                    </p>
                                 </div>
-                                <p className="edu-details">
-                                    <strong>Contenido relevante:</strong> Análisis Exploratorio de Datos, Análisis Inferencial, Machine Learning, Análisis de Datos con R.
-                                </p>
-                            </div>
 
-                            <div className="edu-item">
-                                <h4 className="edu-degree">Licenciatura en Psicología - Mención Psicología Clínica Dinámica</h4>
-                                <div className="edu-meta">
-                                    <span className="edu-school">Universidad Central de Venezuela</span>
-                                    <span className="edu-date">Septiembre 2016 – Marzo 2023</span>
+                                <div className="edu-item">
+                                    <h4 className="edu-degree">Licenciatura en Psicología - Mención Psicología Clínica Dinámica</h4>
+                                    <div className="edu-meta">
+                                        <span className="edu-school">Universidad Central de Venezuela</span>
+                                        <span className="edu-date">Septiembre 2016 – Marzo 2023</span>
+                                    </div>
+                                    <p className="edu-details">
+                                        <strong>Honores:</strong> Premio al Mérito en Investigación 2019
+                                    </p>
                                 </div>
-                                <p className="edu-details">
-                                    <strong>Honores:</strong> Premio al Mérito en Investigación 2019
-                                </p>
                             </div>
                         </div>
                     </div>
