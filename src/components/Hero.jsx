@@ -7,7 +7,7 @@ const Hero = () => {
         <section id="hero" className="hero-section">
             <GlassCard className="hero-content">
                 <h1 className="hero-title">
-                    Hola, soy <span className="highlight">Eduardo Castillo</span>
+                    Hola, soy <span className="highlight">Santiago Cárdenas</span>
                 </h1>
                 <h2 className="hero-subtitle">Analista de Datos / BI Analyst</h2>
                 <p className="hero-description">

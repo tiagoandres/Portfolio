@@ -30,7 +30,7 @@ const Contact = () => {
                             <span className="info-label">Sociales</span>
                             <div className="social-links">
                                 <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer">GitHub</a>
-                                <a href="https://linkedin.com/in/tu-usuario" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                                <a href="https://www.linkedin.com/in/santiagocardenasucv/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                             </div>
                         </div>
                     </GlassCard>
