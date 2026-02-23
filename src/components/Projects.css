@@ -145,9 +145,8 @@
 }
 
 .iframes-container.multi-iframe {
-    /* For tablets and larger, show side-by-side if they fit, otherwise stack */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    display: flex;
+    flex-direction: column;
 }
 
 .iframes-container iframe {
