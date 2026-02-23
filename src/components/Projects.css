@@ -80,3 +80,136 @@
         font-size: 1.2rem;
     }
 }
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: rgba(20, 20, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 2.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.modal-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.iframes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.iframes-container.multi-iframe {
+    /* For tablets and larger, show side-by-side if they fit, otherwise stack */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+}
+
+.iframes-container iframe {
+    width: 100%;
+    height: 600px;
+    /* Fixed height for PowerBI */
+    border: none;
+    border-radius: 8px;
+    background: #fff;
+    /* PowerBI usually has light background */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 768px) {
+    .modal-overlay {
+        padding: 1rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        padding-top: 3rem;
+        /* Make room for close button */
+    }
+
+    .modal-close {
+        top: 0.5rem;
+        right: 1rem;
+    }
+
+    .iframes-container.multi-iframe {
+        grid-template-columns: 1fr;
+    }
+
+    .iframes-container iframe {
+        height: 400px;
+        /* Smaller height on mobile */
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}

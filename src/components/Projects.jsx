@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GlassCard } from 'glass-refraction';
 import './Projects.css';
 
 const Projects = () => {
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const projects = [
         {
             id: 1,
-            title: "Dashboard de Ventas Interactivo",
+            title: "Dashboards Interactivos",
             description: "Visualización completa del funnel de ventas, análisis regional y KPIs de rendimiento comercial.",
             tech: ["Power BI", "DAX", "SQL"],
-            link: "#"
+            iframes: [
+                "https://app.powerbi.com/view?r=eyJrIjoiN2E3NTAwNWUtZjMyMi00NjQ0LTgyMDEtMWM5ODE5ZTcyYmZiIiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9",
+                "https://app.powerbi.com/view?r=eyJrIjoiOWNlMWRkMTgtYjlmZi00MmNhLWExNTItYjU5NzFhNTRhOGM5IiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9"
+            ],
+            link: "#" // Fallback link
         },
         {
             id: 2,
@@ -26,6 +33,21 @@ const Projects = () => {
             link: "#"
         }
     ];
+
+    const handleProjectClick = (e, project) => {
+        if (project.iframes && project.iframes.length > 0) {
+            e.preventDefault();
+            setSelectedProject(project);
+            setIsModalOpen(true);
+            document.body.style.overflow = 'hidden'; // Evitar scroll del body
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setTimeout(() => setSelectedProject(null), 300); // Esperar animación de cierre
+        document.body.style.overflow = 'auto'; // Restaurar scroll
+    };
 
     return (
         <section id="projects" className="projects-section">
@@ -44,7 +66,13 @@ const Projects = () => {
                                 </div>
                             </div>
                             <div className="project-links">
-                                <a href={project.link} className="btn-link" target="_blank" rel="noreferrer">
+                                <a
+                                    href={project.link}
+                                    className="btn-link"
+                                    target={project.iframes ? "_self" : "_blank"}
+                                    rel={project.iframes ? "" : "noreferrer"}
+                                    onClick={(e) => handleProjectClick(e, project)}
+                                >
                                     Ver Proyecto &rarr;
                                 </a>
                             </div>
@@ -52,6 +80,26 @@ const Projects = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Modal para Iframes */}
+            {isModalOpen && selectedProject && (
+                <div className="modal-overlay" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={closeModal}>&times;</button>
+                        <h3 className="modal-title">{selectedProject.title}</h3>
+                        <div className={`iframes-container ${selectedProject.iframes.length > 1 ? 'multi-iframe' : ''}`}>
+                            {selectedProject.iframes.map((iframeUrl, index) => (
+                                <iframe
+                                    key={index}
+                                    title={`Dashboard Power BI ${index + 1}`}
+                                    src={iframeUrl}
+                                    allowFullScreen="true"
+                                ></iframe>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };
