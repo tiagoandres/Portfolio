@@ -27,9 +27,12 @@ const Projects = () => {
         },
         {
             id: 3,
-            title: "Reporte de Rendimiento SEO/SEM",
-            description: "Dashboard analítico para evaluar el rendimiento de campañas, clics, CTR e impresiones.",
-            tech: ["Looker Studio", "Google Analytics", "Google Ads"],
+            title: "Análisis Inferencial de Tablas de Contingencia",
+            description: "Proyecto de Data Science enfocado en el análisis de tablas de contingencia utilizando R y Quarto.",
+            tech: ["R", "Quarto", "Data Science", "Estadística"],
+            iframes: [
+                "/analisis-inferencial.html"
+            ],
             link: "#"
         }
     ];
