@@ -71,23 +71,22 @@ main {
 }
 
 section {
-  min-height: 100vh;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  scroll-margin-top: 100px;
 }
 
 @media (max-width: 768px) {
   section {
-    padding: 5rem 1.25rem 3rem;
-    min-height: auto;
+    padding: 3.5rem 1.25rem 2.5rem;
   }
 }
 
 @media (max-width: 480px) {
   section {
-    padding: 5rem 1rem 2.5rem;
+    padding: 3rem 1rem 2rem;
   }
 }
 

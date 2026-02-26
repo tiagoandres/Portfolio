@@ -19,19 +19,22 @@ const Projects = () => {
             link: "#" // Fallback link
         },
         {
-            id: 2,
-            title: "Segmentación de Clientes",
-            description: "Análisis de clúster para identificar segmentos de usuarios y mejorar la efectividad de campañas publicitarias.",
-            tech: ["Python", "Machine Learning", "Pandas"],
-            link: "#"
-        },
-        {
             id: 3,
             title: "Análisis Inferencial de Tablas de Contingencia",
             description: "Proyecto de Data Science enfocado en el análisis de tablas de contingencia utilizando R y Quarto.",
             tech: ["R", "Quarto", "Data Science", "Estadística"],
             iframes: [
                 "/analisis-inferencial.html"
+            ],
+            link: "#"
+        },
+        {
+            id: 2,
+            title: "Segmentación de Campañas de Google Ads",
+            description: "Proyecto de Data Science enfocado en segmentar campañas de Google Ads para optimizar la inversión y mejorar la conversión.",
+            tech: ["Python", "Machine Learning", "Pandas", "Data Science"],
+            iframes: [
+                "/Segmentación_campañas.html"
             ],
             link: "#"
         }
