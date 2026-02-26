@@ -9,7 +9,7 @@ const Hero = () => {
     return (
         <section id="hero" className="hero-section">
             <GlassCard className="hero-content">
-                <h1 className="hero-title">{t('hero_greeting')}, <br /><span className="highlight">{t('hero_name_highlight')}</span></h1>
+                <h1 className="hero-title">{t('hero_greeting')} <br /><span className="highlight">{t('hero_name_highlight')}</span></h1>
                 <h2 className="hero-subtitle">{t('hero_role')}</h2>
                 <p className="hero-description">
                     {t('hero_desc')}
