@@ -11,6 +11,10 @@ const Contact = () => {
 
         const form = e.target;
         const formData = new FormData(form);
+
+        // Configuraciones de FormSubmit para evitar bloqueos
+        formData.append('_captcha', 'false'); // Desactiva el captcha para peticiones AJAX
+
         const data = Object.fromEntries(formData.entries());
 
         try {
