@@ -13,8 +13,8 @@ export const translations = {
         hero_name_highlight: "Santiago Cárdenas",
         hero_role: "Analista de Datos / BI Analyst",
         hero_desc: "Especialista en análisis de datos y psicometría. Transformo datos complejos en insights accionables y dashboards interactivos para potenciar la toma de decisiones.",
-        hero_btn_contact: "Ver mis proyectos",
-        hero_btn_cv: "Contactar",
+        hero_btn_projects: "Ver mis proyectos",
+        hero_btn_contact: "Contactar",
 
         // About
         about_title: "Sobre Mí & Formación",
@@ -94,8 +94,8 @@ export const translations = {
         hero_name_highlight: "Santiago Cárdenas",
         hero_role: "Data Analyst / BI Analyst",
         hero_desc: "Specialist in data analysis and psychometrics. I transform complex data into actionable insights and interactive dashboards to empower decision-making.",
-        hero_btn_contact: "View my projects",
-        hero_btn_cv: "Contact",
+        hero_btn_projects: "View my projects",
+        hero_btn_contact: "Contact",
 
         // About
         about_title: "About Me & Education",

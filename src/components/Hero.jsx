@@ -15,8 +15,8 @@ const Hero = () => {
                     {t('hero_desc')}
                 </p>
                 <div className="hero-actions">
-                    <a href="#contact" className="btn btn-primary">{t('hero_btn_contact')}</a>
-                    <a href="/Santiago_Cardenas_CV.pdf" target="_blank" className="btn btn-secondary">{t('hero_btn_cv')}</a>
+                    <a href="#projects" className="btn btn-primary">{t('hero_btn_projects')}</a>
+                    <a href="#contact" className="btn btn-secondary">{t('hero_btn_contact')}</a>
                 </div>
             </GlassCard>
         </section>
