@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { GlassCard } from 'glass-refraction';
+import { useLanguage } from '../context/LanguageContext';
 import './Contact.css';
 
 const Contact = () => {
+    const { t } = useLanguage();
     const [status, setStatus] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setStatus('Enviando mensaje...');
+        setStatus(t('contact_status_sending'));
 
         const form = e.target;
         const formData = new FormData(form);
@@ -28,13 +30,13 @@ const Contact = () => {
             });
 
             if (response.ok) {
-                setStatus('Mensaje enviado. ¡Gracias por contactarme!');
+                setStatus(t('contact_status_success'));
                 form.reset();
             } else {
-                setStatus('Hubo un problema al enviar el mensaje. Intenta de nuevo.');
+                setStatus(t('contact_status_err_send'));
             }
         } catch (error) {
-            setStatus('Error de conexión. Por favor reintenta.');
+            setStatus(t('contact_status_err_net'));
         }
 
         setTimeout(() => setStatus(''), 5000);
@@ -43,12 +45,12 @@ const Contact = () => {
     return (
         <section id="contact" className="contact-section">
             <div className="container">
-                <h2 className="section-title">Contáctame</h2>
+                <h2 className="section-title">{t('contact_title')}</h2>
                 <div className="contact-wrapper">
                     <GlassCard className="contact-info">
-                        <h3>Hablemos de tu próximo proyecto</h3>
+                        <h3>{t('contact_subtitle')}</h3>
                         <p className="contact-text">
-                            Estoy disponible para oportunidades como Analista de Datos, consultorías en BI o simplemente para charlar sobre visualización de datos.
+                            {t('contact_text')}
                         </p>
                         <div className="info-item">
                             <span className="info-label">Email</span>
@@ -64,18 +66,18 @@ const Contact = () => {
                     </GlassCard>
                     <GlassCard as="form" className="contact-form" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="name">Nombre</label>
-                            <input type="text" id="name" name="name" required placeholder="Tu nombre" />
+                            <label htmlFor="name">{t('contact_form_name')}</label>
+                            <input type="text" id="name" name="name" required placeholder={t('contact_form_name_ph')} />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" name="email" required placeholder="tu@email.com" />
+                            <label htmlFor="email">{t('contact_form_email')}</label>
+                            <input type="email" id="email" name="email" required placeholder={t('contact_form_email_ph')} />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="message">Mensaje</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="¿En qué te puedo ayudar?"></textarea>
+                            <label htmlFor="message">{t('contact_form_msg')}</label>
+                            <textarea id="message" name="message" rows="5" required placeholder={t('contact_form_msg_ph')}></textarea>
                         </div>
-                        <button type="submit" className="btn btn-primary btn-block">Enviar Mensaje</button>
+                        <button type="submit" className="btn btn-primary btn-block">{t('contact_btn_send')}</button>
                         {status && <div className="status-message">{status}</div>}
                     </GlassCard>
                 </div>

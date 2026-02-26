@@ -1,23 +1,20 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import './About.css';
 
 const About = () => {
+    const { t } = useLanguage();
     return (
         <section id="about" className="about-section">
             <div className="container">
-                <h2 className="section-title">Sobre Mí & Formación</h2>
+                <h2 className="section-title">{t('about_title')}</h2>
                 <div className="about-content">
                     <div className="about-text">
-                        <p>
-                            Soy un profesional híbrido con una combinación única: Licenciado en Psicología Clínica y Especialista en Análisis de Datos. Esto me permite no solo procesar información técnica, sino también entender el comportamiento humano detrás de los números.
-                        </p>
-                        <p>
-                            Me enfoco en el análisis de mercado, la inteligencia de negocios y la creación de dashboards interactivos. Mi objetivo es transformar datos sin procesar en decisiones estratégicas claras.
-                        </p>
-
+                        <p>{t('about_p1')}</p>
+                        <p>{t('about_p2')}</p>
                     </div>
                     <div className="skills-container">
-                        <h3>Habilidades Destacadas</h3>
+                        <h3>{t('about_skills_title')}</h3>
                         <ul className="skills-list">
                             <li>Power BI & Looker Studio</li>
                             <li>Python & R</li>
@@ -31,28 +28,28 @@ const About = () => {
                 </div>
 
                 <div className="education-container">
-                    <h3>Formación Académica</h3>
+                    <h3>{t('about_edu_title')}</h3>
 
                     <div className="edu-grid">
                         <div className="edu-item">
-                            <h4 className="edu-degree">Especialización en Análisis de Datos en Ciencias Sociales</h4>
+                            <h4 className="edu-degree">{t('about_edu1_degree')}</h4>
                             <div className="edu-meta">
-                                <span className="edu-school">Universidad Central de Venezuela</span>
-                                <span className="edu-date">Abril 2024 – Abril 2026</span>
+                                <span className="edu-school">{t('about_edu1_school')}</span>
+                                <span className="edu-date">{t('about_edu1_date')}</span>
                             </div>
                             <p className="edu-details">
-                                <strong>Contenido relevante:</strong> Análisis Exploratorio de Datos, Análisis Inferencial, Machine Learning, Análisis de Datos con R.
+                                <strong>{t('about_edu1_relevant')}</strong> {t('about_edu1_desc')}
                             </p>
                         </div>
 
                         <div className="edu-item">
-                            <h4 className="edu-degree">Licenciatura en Psicología - Mención Psicología Clínica Dinámica</h4>
+                            <h4 className="edu-degree">{t('about_edu2_degree')}</h4>
                             <div className="edu-meta">
-                                <span className="edu-school">Universidad Central de Venezuela</span>
-                                <span className="edu-date">Septiembre 2016 – Marzo 2023</span>
+                                <span className="edu-school">{t('about_edu2_school')}</span>
+                                <span className="edu-date">{t('about_edu2_date')}</span>
                             </div>
                             <p className="edu-details">
-                                <strong>Honores:</strong> Premio al Mérito en Investigación 2019
+                                <strong>{t('about_edu2_honors')}</strong> {t('about_edu2_desc')}
                             </p>
                         </div>
                     </div>

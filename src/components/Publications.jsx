@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard } from 'glass-refraction';
+import { useLanguage } from '../context/LanguageContext';
 import './Publications.css';
 
 const publications = [
@@ -22,6 +23,7 @@ const publications = [
 ];
 
 const Publications = () => {
+    const { t } = useLanguage();
     const [selectedPdf, setSelectedPdf] = useState(null);
 
     useEffect(() => {
@@ -44,9 +46,9 @@ const Publications = () => {
         <>
             <section id="publications" className="publications-section">
                 <div className="container">
-                    <h2 className="section-title">Publicaciones</h2>
+                    <h2 className="section-title">{t('pub_title')}</h2>
                     <p className="publications-subtitle">
-                        Artículos académicos publicados en el área de psicometría y salud mental.
+                        {t('pub_subtitle')}
                     </p>
                     <div className="publications-grid">
                         {publications.map((pub) => (
@@ -55,7 +57,7 @@ const Publications = () => {
                                     <div className="pub-icon">📄</div>
                                     <span className="pub-acronym">{pub.title}</span>
                                     <h3 className="pub-title">{pub.fullTitle}</h3>
-                                    <p className="pub-desc">{pub.description}</p>
+                                    <p className="pub-desc">{t(pub.id === 1 ? 'pub1_desc' : 'pub2_desc')}</p>
                                     <div className="pub-tags">
                                         {pub.tags.map((tag, i) => (
                                             <span key={i} className="pub-tag">{tag}</span>
@@ -67,7 +69,7 @@ const Publications = () => {
                                         className="btn-view"
                                         onClick={() => setSelectedPdf(pub)}
                                     >
-                                        Ver publicación →
+                                        {t('pub_btn_view')}
                                     </button>
                                 </div>
                             </GlassCard>

@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { GlassCard } from 'glass-refraction';
+import { useLanguage } from '../context/LanguageContext';
 import './Projects.css';
 
 const Projects = () => {
+    const { t } = useLanguage();
     const [selectedProject, setSelectedProject] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const projects = [
         {
             id: 1,
-            title: "Dashboards Interactivos",
-            description: "Visualización completa del funnel de ventas, análisis regional y KPIs de rendimiento comercial.",
+            title: t('proj1_title'),
+            description: t('proj1_desc'),
             tech: ["Power BI", "DAX", "SQL"],
             iframes: [
                 "https://app.powerbi.com/view?r=eyJrIjoiN2E3NTAwNWUtZjMyMi00NjQ0LTgyMDEtMWM5ODE5ZTcyYmZiIiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9",
@@ -20,8 +22,8 @@ const Projects = () => {
         },
         {
             id: 3,
-            title: "Análisis Inferencial de Tablas de Contingencia",
-            description: "Proyecto de Data Science enfocado en el análisis de tablas de contingencia utilizando R y Quarto.",
+            title: t('proj2_title'),
+            description: t('proj2_desc'),
             tech: ["R", "Quarto", "Data Science", "Estadística"],
             iframes: [
                 "/analisis-inferencial.html"
@@ -30,8 +32,8 @@ const Projects = () => {
         },
         {
             id: 2,
-            title: "Segmentación de Campañas de Google Ads",
-            description: "Proyecto de Data Science enfocado en segmentar campañas de Google Ads para optimizar la inversión y mejorar la conversión.",
+            title: t('proj3_title'),
+            description: t('proj3_desc'),
             tech: ["Python", "Machine Learning", "Pandas", "Data Science"],
             iframes: [
                 "/Segmentación_campañas.html"
@@ -58,7 +60,7 @@ const Projects = () => {
     return (
         <section id="projects" className="projects-section">
             <div className="container">
-                <h2 className="section-title">Mis Proyectos</h2>
+                <h2 className="section-title">{t('proj_title')}</h2>
                 <div className="projects-grid">
                     {projects.map((project) => (
                         <GlassCard key={project.id} className="project-card">
@@ -79,7 +81,7 @@ const Projects = () => {
                                     rel={project.iframes ? "" : "noreferrer"}
                                     onClick={(e) => handleProjectClick(e, project)}
                                 >
-                                    Ver Proyecto &rarr;
+                                    {t('proj_btn_view')}
                                 </a>
                             </div>
                         </GlassCard>

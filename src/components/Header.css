@@ -20,6 +20,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .logo {
@@ -27,6 +28,7 @@
     font-weight: 700;
     color: var(--primary-color);
     white-space: nowrap;
+    flex: 1;
 }
 
 /* ── Desktop nav ──────────────────────────────────────────── */
@@ -34,6 +36,9 @@
     display: flex;
     gap: 0.25rem;
     flex-wrap: nowrap;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-links a {
@@ -56,6 +61,90 @@
     color: #fff;
     font-weight: 600;
     backdrop-filter: blur(10px);
+}
+
+/* ── Header Right ──────────────────────────────────────────── */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.lang-toggle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.lang-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.lang-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: rgba(10, 15, 30, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 140px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.2s ease;
+}
+
+/* Puente invisible para evitar que el dropdown se cierre al mover el cursor */
+.lang-dropdown::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    width: 100%;
+    height: 15px;
+}
+
+.lang-option {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.lang-option:hover {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.lang-option.active {
+    background: rgba(59, 130, 246, 0.3);
+    color: #fff;
+    font-weight: 600;
 }
 
 /* ── Hamburger (hidden on desktop) ─────────────────────────── */
@@ -166,6 +255,16 @@
 
     .nav-links {
         display: none;
+    }
+
+    .logo {
+        flex: 1;
+        /* Keep logo taking left space */
+    }
+
+    .header-right {
+        flex: 1;
+        /* Keep buttons taking right space and don't collapse */
     }
 
     .hamburger {
