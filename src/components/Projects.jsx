@@ -18,17 +18,15 @@ const Projects = () => {
                 "https://app.powerbi.com/view?r=eyJrIjoiN2E3NTAwNWUtZjMyMi00NjQ0LTgyMDEtMWM5ODE5ZTcyYmZiIiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9",
                 "https://app.powerbi.com/view?r=eyJrIjoiOWNlMWRkMTgtYjlmZi00MmNhLWExNTItYjU5NzFhNTRhOGM5IiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9"
             ],
-            link: "#" // Fallback link
+            link: "#"
         },
         {
-            id: 3,
-            title: t('proj2_title'),
-            description: t('proj2_desc'),
-            tech: ["R", "Quarto", "Data Science", "Estadística"],
-            iframes: [
-                "/analisis-inferencial.html"
-            ],
-            link: "#"
+            id: 4,
+            title: t('proj4_title'),
+            description: t('proj4_desc'),
+            tech: ["Supabase", "PostgreSQL", "Next.js", "React", "Tailwind CSS"],
+            iframes: ["/resumen-ucv.pdf"], // Abrirá el PDF en el modal
+            link: "https://evaluacion-curricular.vercel.app/" // Link externo al proyecto
         },
         {
             id: 2,
@@ -39,22 +37,32 @@ const Projects = () => {
                 "/Segmentación_campañas.html"
             ],
             link: "#"
+        },
+        {
+            id: 3,
+            title: t('proj2_title'),
+            description: t('proj2_desc'),
+            tech: ["R", "Quarto", "Data Science", "Estadística"],
+            iframes: [
+                "/analisis-inferencial.html"
+            ],
+            link: "#"
         }
     ];
 
-    const handleProjectClick = (e, project) => {
-        if (project.iframes && project.iframes.length > 0) {
+    const handleProjectClick = (e, project, isPdfButton = false) => {
+        if (project.iframes && project.iframes.length > 0 && (isPdfButton || project.id !== 4)) {
             e.preventDefault();
             setSelectedProject(project);
             setIsModalOpen(true);
-            document.body.style.overflow = 'hidden'; // Evitar scroll del body
+            document.body.style.overflow = 'hidden';
         }
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setTimeout(() => setSelectedProject(null), 300); // Esperar animación de cierre
-        document.body.style.overflow = 'auto'; // Restaurar scroll
+        setTimeout(() => setSelectedProject(null), 300);
+        document.body.style.overflow = 'auto';
     };
 
     return (
@@ -74,22 +82,42 @@ const Projects = () => {
                                 </div>
                             </div>
                             <div className="project-links">
-                                <a
-                                    href={project.link}
-                                    className="btn-link"
-                                    target={project.iframes ? "_self" : "_blank"}
-                                    rel={project.iframes ? "" : "noreferrer"}
-                                    onClick={(e) => handleProjectClick(e, project)}
-                                >
-                                    {t('proj_btn_view')}
-                                </a>
+                                {project.id === 4 ? (
+                                    <>
+                                        <a
+                                            href={project.link}
+                                            className="btn-link"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            {t('proj_btn_project')}
+                                        </a>
+                                        <a
+                                            href="#"
+                                            className="btn-link"
+                                            onClick={(e) => handleProjectClick(e, project, true)}
+                                        >
+                                            {t('proj_btn_summary')}
+                                        </a>
+                                    </>
+                                ) : (
+                                    <a
+                                        href={project.link}
+                                        className="btn-link"
+                                        target={project.iframes ? "_self" : "_blank"}
+                                        rel={project.iframes ? "" : "noreferrer"}
+                                        onClick={(e) => handleProjectClick(e, project)}
+                                    >
+                                        {t('proj_btn_view')}
+                                    </a>
+                                )}
                             </div>
                         </GlassCard>
                     ))}
                 </div>
             </div>
 
-            {/* Modal para Iframes */}
+            {/* Modal para Iframes/PDFs */}
             {isModalOpen && selectedProject && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -99,7 +127,7 @@ const Projects = () => {
                             {selectedProject.iframes.map((iframeUrl, index) => (
                                 <iframe
                                     key={index}
-                                    title={`Dashboard Power BI ${index + 1}`}
+                                    title={`Dashboard/Resume ${index + 1}`}
                                     src={iframeUrl}
                                     allowFullScreen="true"
                                 ></iframe>

@@ -53,7 +53,11 @@ export const translations = {
         proj2_desc: "Proyecto de Data Science enfocado en el análisis de tablas de contingencia utilizando R y Quarto.",
         proj3_title: "Segmentación de Campañas de Google Ads",
         proj3_desc: "Proyecto de Data Science enfocado en segmentar campañas de Google Ads para optimizar la inversión y mejorar la conversión.",
+        proj4_title: "Hub de Evaluación Curricular",
+        proj4_desc: "Sistema integral para la visualización de evaluaciones docentes.",
         proj_btn_view: "Ver Proyecto \u2192",
+        proj_btn_project: "Ver Proyecto",
+        proj_btn_summary: "Ver Resumen",
 
         // Publications
         pub_title: "Publicaciones",
@@ -137,7 +141,11 @@ export const translations = {
         proj2_desc: "Data Science project focused on the analysis of contingency tables using R and Quarto.",
         proj3_title: "Google Ads Campaign Segmentation",
         proj3_desc: "Data Science project focused on segmenting Google Ads campaigns to optimize investment and improve conversion rates.",
+        proj4_title: "Curricular Evaluation Hub",
+        proj4_desc: "Comprehensive system to visualize teacher evaluations",
         proj_btn_view: "View Project \u2192",
+        proj_btn_project: "View Project",
+        proj_btn_summary: "View Summary",
 
         // Publications
         pub_title: "Publications",
