@@ -3,35 +3,35 @@
 
 :root {
   --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --bg-color: #0f172a;
-  /* Dark slate */
-  --text-color: #f8fafc;
-  --primary-color: #3b82f6;
-  /* Blue */
+  --bg-color: #0a1628;
+  /* Deep navy */
+  --text-color: #e8f0fa;
+  --primary-color: #50d8ff;
+  /* Cyan */
   --secondary-color: #8b5cf6;
   /* Purple */
-  --accent-color: #10b981;
-  /* Emerald */
+  --accent-color: #64ffaa;
+  /* Mint green */
 
-  --bg-surface: rgba(30, 41, 59, 0.7);
+  --bg-surface: rgba(12, 28, 52, 0.7);
   /* For glassmorphism */
-  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(80, 200, 255, 0.08);
 
-  /* Glass Refraction Overrides for stronger effect */
+  /* Glass Refraction Overrides */
   --gr-blur: 40px;
   --gr-blur-card: 32px;
-  --gr-saturation: 2.2;
-  --gr-saturation-card: 2.0;
-  --gr-bg-start: rgba(20, 25, 40, 0.35);
-  --gr-bg-end: rgba(10, 15, 25, 0.25);
-  --gr-chromatic-blue: rgba(0, 180, 255, 0.15);
-  --gr-chromatic-violet: rgba(120, 80, 255, 0.15);
-  --gr-chromatic-pink: rgba(255, 100, 200, 0.15);
-  --gr-chromatic-green: rgba(100, 255, 180, 0.15);
+  --gr-saturation: 2.0;
+  --gr-saturation-card: 1.8;
+  --gr-bg-start: rgba(8, 18, 36, 0.45);
+  --gr-bg-end: rgba(6, 12, 26, 0.35);
+  --gr-chromatic-blue: rgba(0, 180, 255, 0.12);
+  --gr-chromatic-violet: rgba(120, 80, 255, 0.10);
+  --gr-chromatic-pink: rgba(255, 140, 60, 0.08);
+  --gr-chromatic-green: rgba(100, 255, 170, 0.12);
 }
 
 html {
-  background-color: #060609;
+  background-color: #060c1a;
 }
 
 body {

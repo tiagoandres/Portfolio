@@ -6,234 +6,376 @@ const AnimatedBackground = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const gl = canvas.getContext('webgl');
-    if (!gl) {
-      console.error("WebGL not supported");
-      return;
-    }
-
-    const vertexShaderSource = `
-      attribute vec2 a_position;
-      varying vec2 v_uv;
-      void main() {
-        v_uv = a_position * 0.5 + 0.5;
-        gl_Position = vec4(a_position, 0.0, 1.0);
-      }
-    `;
-
-    const fragmentShaderSource = `
-      precision highp float;
-      uniform vec2 u_resolution;
-      uniform float u_time;
-      varying vec2 v_uv;
-
-      // GLSL textureless classic 3D noise "cnoise",
-      // with an RSL-style periodic variant "pnoise".
-      // Author:  Stefan Gustavson (stefan.gustavson@liu.se)
-      // Version: 2011-08-22
-      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
-      vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
-
-      float snoise(vec3 v) {
-        const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
-        const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
-
-        // First corner
-        vec3 i  = floor(v + dot(v, C.yyy) );
-        vec3 x0 = v - i + dot(i, C.xxx) ;
-
-        // Other corners
-        vec3 g = step(x0.yzx, x0.xyz);
-        vec3 l = 1.0 - g;
-        vec3 i1 = min( g.xyz, l.zxy );
-        vec3 i2 = max( g.xyz, l.zxy );
-
-        //   x0 = x0 - 0.0 + 0.0 * C.xxx;
-        //   x1 = x0 - i1  + 1.0 * C.xxx;
-        //   x2 = x0 - i2  + 2.0 * C.xxx;
-        //   x3 = x0 - 1.0 + 3.0 * C.xxx;
-        vec3 x1 = x0 - i1 + C.xxx;
-        vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y
-        vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
-
-        // Permutations
-        i = mod289(i);
-        vec4 p = permute( permute( permute(
-                   i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-                 + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
-                 + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
-
-        // Gradients: 7x7 points over a square, mapped onto an octahedron.
-        // The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)
-        float n_ = 0.142857142857; // 1.0/7.0
-        vec3  ns = n_ * D.wyz - D.xzx;
-
-        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)
-
-        vec4 x_ = floor(j * ns.z);
-        vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
-
-        vec4 x = x_ *ns.x + ns.yyyy;
-        vec4 y = y_ *ns.x + ns.yyyy;
-        vec4 h = 1.0 - abs(x) - abs(y);
-
-        vec4 b0 = vec4( x.xy, y.xy );
-        vec4 b1 = vec4( x.zw, y.zw );
-
-        //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;
-        //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;
-        vec4 s0 = floor(b0)*2.0 + 1.0;
-        vec4 s1 = floor(b1)*2.0 + 1.0;
-        vec4 sh = -step(h, vec4(0.0));
-
-        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
-        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
-
-        vec3 p0 = vec3(a0.xy,h.x);
-        vec3 p1 = vec3(a0.zw,h.y);
-        vec3 p2 = vec3(a1.xy,h.z);
-        vec3 p3 = vec3(a1.zw,h.w);
-
-        //Normalise gradients
-        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
-        p0 *= norm.x;
-        p1 *= norm.y;
-        p2 *= norm.z;
-        p3 *= norm.w;
-
-        // Mix final noise value
-        vec4 m = max(0.5 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-        m = m * m;
-        return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
-                                      dot(p2,x2), dot(p3,x3) ) );
-      }
-
-      void main() {
-        vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-        uv.x *= u_resolution.x / u_resolution.y;
-
-        // Fluid movement parameters
-        float t = u_time * 0.15; // Slow down the base time for elegant fluid flow
-        
-        // Complex layered noise to simulate liquid depth
-        float noise1 = snoise(vec3(uv * 1.5, t)) * 0.5 + 0.5;
-        float noise2 = snoise(vec3(uv * 2.5 - vec2(t * 0.8), t * 1.2)) * 0.5 + 0.5;
-        float noise3 = snoise(vec3(uv * 0.8 + vec2(t * 0.5), t * 0.7)) * 0.5 + 0.5;
-        
-        // Combine noise to create flowing shapes
-        float n = (noise1 * 0.6) + (noise2 * 0.3) + (noise3 * 0.4);
-        
-        // Smooth out the noise for fluid shapes
-        n = smoothstep(0.2, 0.8, n);
-
-        // Define our glowing base colors
-        vec3 colorBlack = vec3(0.00, 0.00, 0.00); // 1. Absolute pure black abyss
-        vec3 colorDeepViolet = vec3(0.01, 0.00, 0.02); // 2. Barely visible dark violet transition
-        vec3 colorDarkPurple = vec3(0.04, 0.00, 0.08); // 3. Muted majestic dark purple
-        vec3 colorPlum = vec3(0.08, 0.01, 0.12); // 4. The brightest accent (plum/royal purple)
-        
-        // Mix colors based on the noise map coordinates
-        vec3 color = mix(colorBlack, colorDeepViolet, smoothstep(0.1, 0.4, n));
-        color = mix(color, colorDarkPurple, smoothstep(0.35, 0.65, n));
-        color = mix(color, colorPlum, smoothstep(0.6, 0.95, n));
-        
-        // Add artificial lighting / specular highlight for 'glass-like' thickness
-        float specular = pow(max(0.0, snoise(vec3(uv * 3.0, t * 1.5))), 4.0) * 0.03; 
-        color += vec3(specular * 0.3, specular * 0.1, specular * 0.5); // Very faint purplish glint
-        
-        // Output final fluid color with a very subtle overlay grain (calculated natively in GLSL)
-        float grain = fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
-        color -= (grain * 0.03); // tiny bit of noise to prevent banding
-        
-        gl_FragColor = vec4(color, 1.0);
-      }
-    `;
-
-    const compileShader = (source, type) => {
-      const shader = gl.createShader(type);
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
-      }
-      return shader;
-    };
-
-    const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
-
-    const program = gl.createProgram();
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program linking error:", gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
-
-    const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-    // A simple full-screen quad
-    const positions = new Float32Array([
-      -1, -1,
-      1, -1,
-      -1, 1,
-      -1, 1,
-      1, -1,
-      1, 1,
-    ]);
-    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-    gl.enableVertexAttribArray(positionAttributeLocation);
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
-
-    const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-    const timeLocation = gl.getUniformLocation(program, "u_time");
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     let animationFrameId;
+    let width, height;
+    let dpr = window.devicePixelRatio || 1;
 
-    const render = (time) => {
-      // 1000 ms to seconds
-      const t = time * 0.001;
+    // ─── Nodes (Network Graph) ─────────────────────────────────
+    const nodes = [];
+    const NODE_COUNT = 65;
+    const CONNECTION_DIST = 180;
 
-      // Handle canvas resize
-      const displayWidth = window.innerWidth;
-      const displayHeight = window.innerHeight;
+    // ─── Bell Curves ───────────────────────────────────────────
+    const bellCurves = [];
+    const BELL_COUNT = 3;
 
-      if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
-        canvas.width = displayWidth;
-        canvas.height = displayHeight;
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    // ─── Code Rain Particles ───────────────────────────────────
+    const codeParticles = [];
+    const CODE_PARTICLE_COUNT = 40;
+    const codeSnippets = [
+      'def', 'import', 'return', 'class', 'for', 'if', 'else',
+      'np.', 'pd.', 'fit()', 'predict()', 'model', 'data',
+      'train', 'test', 'loss', 'accuracy', 'epoch', 'batch',
+      'x =', 'y =', 'lambda', 'map()', 'filter', 'reduce',
+      '0101', '1010', '>>>', '...', '===', '!=', '()', '{}',
+      'σ', 'μ', 'Σ', 'Δ', 'θ', 'α', 'β', 'π', '∫', '∂',
+      'p(x)', 'E[X]', 'Var', 'R²', 'log', 'exp', 'sin',
+    ];
+
+    // ─── Grid Lines ────────────────────────────────────────────
+    const GRID_SPACING = 80;
+
+    // ─── Floating Symbols ──────────────────────────────────────
+    const floatingSymbols = [];
+    const SYMBOL_COUNT = 12;
+    const symbols = ['σ', 'μ', 'Σ', '∫', 'Δ', 'θ', 'π', '∂', 'α', 'β', 'ε', 'λ'];
+
+    const resize = () => {
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const initNodes = () => {
+      nodes.length = 0;
+      for (let i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          radius: Math.random() * 2.5 + 1,
+          // Color variety: cyan, green, orange, purple
+          colorIdx: Math.floor(Math.random() * 4),
+          pulse: Math.random() * Math.PI * 2,
+        });
+      }
+    };
+
+    const initBellCurves = () => {
+      bellCurves.length = 0;
+      for (let i = 0; i < BELL_COUNT; i++) {
+        bellCurves.push({
+          centerX: width * (0.2 + i * 0.3) + (Math.random() - 0.5) * 100,
+          centerY: height * (0.55 + Math.random() * 0.3),
+          sigma: 60 + Math.random() * 80,
+          amplitude: 80 + Math.random() * 60,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.3 + Math.random() * 0.4,
+          // 0=cyan, 1=green, 2=orange
+          colorIdx: i % 3,
+          drift: (Math.random() - 0.5) * 0.15,
+        });
+      }
+    };
+
+    const initCodeParticles = () => {
+      codeParticles.length = 0;
+      for (let i = 0; i < CODE_PARTICLE_COUNT; i++) {
+        codeParticles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          text: codeSnippets[Math.floor(Math.random() * codeSnippets.length)],
+          opacity: Math.random() * 0.12 + 0.03,
+          speed: Math.random() * 0.3 + 0.1,
+          size: Math.random() * 6 + 9,
+        });
+      }
+    };
+
+    const initFloatingSymbols = () => {
+      floatingSymbols.length = 0;
+      for (let i = 0; i < SYMBOL_COUNT; i++) {
+        floatingSymbols.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          symbol: symbols[i % symbols.length],
+          size: 18 + Math.random() * 30,
+          opacity: 0.04 + Math.random() * 0.06,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.15,
+          rotation: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.005,
+        });
+      }
+    };
+
+    const nodeColors = [
+      [0, 200, 255],    // Cyan
+      [80, 255, 160],   // Green
+      [255, 160, 50],   // Orange
+      [140, 100, 255],  // Purple
+    ];
+
+    const curveColors = [
+      { r: 80, g: 210, b: 255 },   // Cyan
+      { r: 100, g: 255, b: 170 },  // Green
+      { r: 255, g: 180, b: 60 },   // Orange
+    ];
+
+    // Gaussian function
+    const gaussian = (x, mu, sigma) => {
+      return Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
+    };
+
+    const drawGrid = (time) => {
+      ctx.save();
+      const offset = (time * 8) % GRID_SPACING;
+      ctx.strokeStyle = 'rgba(30, 80, 120, 0.06)';
+      ctx.lineWidth = 0.5;
+
+      // Vertical lines
+      for (let x = -offset; x < width + GRID_SPACING; x += GRID_SPACING) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
       }
 
-      // Update uniforms
-      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
-      gl.uniform1f(timeLocation, t);
+      // Horizontal lines
+      for (let y = -offset; y < height + GRID_SPACING; y += GRID_SPACING) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
 
-      // Draw quad
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    const drawNodes = (time) => {
+      // Update positions
+      for (const node of nodes) {
+        node.x += node.vx;
+        node.y += node.vy;
+        node.pulse += 0.02;
+
+        // Wrap around
+        if (node.x < -20) node.x = width + 20;
+        if (node.x > width + 20) node.x = -20;
+        if (node.y < -20) node.y = height + 20;
+        if (node.y > height + 20) node.y = -20;
+      }
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < CONNECTION_DIST) {
+            const opacity = (1 - dist / CONNECTION_DIST) * 0.15;
+            const c = nodeColors[nodes[i].colorIdx];
+            ctx.strokeStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${opacity})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw node dots
+      for (const node of nodes) {
+        const c = nodeColors[node.colorIdx];
+        const pulseScale = 1 + Math.sin(node.pulse) * 0.3;
+        const r = node.radius * pulseScale;
+
+        // Glow
+        const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 4);
+        gradient.addColorStop(0, `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0.3)`);
+        gradient.addColorStop(1, `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0)`);
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, r * 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Core
+        ctx.fillStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0.7)`;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    const drawBellCurves = (time) => {
+      for (const curve of bellCurves) {
+        const c = curveColors[curve.colorIdx];
+        const phaseOffset = time * curve.speed + curve.phase;
+        const currentCenterX = curve.centerX + Math.sin(phaseOffset) * 60;
+        const currentSigma = curve.sigma + Math.sin(phaseOffset * 0.7) * 15;
+
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+
+        // Fill under curve
+        ctx.beginPath();
+        ctx.moveTo(currentCenterX - currentSigma * 4, curve.centerY);
+        for (let x = -currentSigma * 4; x <= currentSigma * 4; x += 2) {
+          const g = gaussian(x, 0, currentSigma);
+          const px = currentCenterX + x;
+          const py = curve.centerY - g * curve.amplitude;
+          ctx.lineTo(px, py);
+        }
+        ctx.lineTo(currentCenterX + currentSigma * 4, curve.centerY);
+        ctx.closePath();
+
+        const fillGrad = ctx.createLinearGradient(
+          currentCenterX, curve.centerY - curve.amplitude,
+          currentCenterX, curve.centerY
+        );
+        fillGrad.addColorStop(0, `rgba(${c.r}, ${c.g}, ${c.b}, 0.15)`);
+        fillGrad.addColorStop(1, `rgba(${c.r}, ${c.g}, ${c.b}, 0.02)`);
+        ctx.fillStyle = fillGrad;
+        ctx.fill();
+
+        // Stroke the curve line
+        ctx.globalAlpha = 0.25;
+        ctx.beginPath();
+        for (let x = -currentSigma * 4; x <= currentSigma * 4; x += 2) {
+          const g = gaussian(x, 0, currentSigma);
+          const px = currentCenterX + x;
+          const py = curve.centerY - g * curve.amplitude;
+          if (x === -currentSigma * 4) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, 0.6)`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.restore();
+
+        // Slowly drift curve center
+        curve.centerX += curve.drift;
+        if (curve.centerX < -200) curve.centerX = width + 200;
+        if (curve.centerX > width + 200) curve.centerX = -200;
+      }
+    };
+
+    const drawCodeParticles = (time) => {
+      ctx.save();
+      ctx.font = '12px "Fira Code", "Courier New", monospace';
+
+      for (const p of codeParticles) {
+        p.y -= p.speed;
+        if (p.y < -30) {
+          p.y = height + 30;
+          p.x = Math.random() * width;
+          p.text = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        }
+
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = `rgba(100, 200, 255, 1)`;
+        ctx.font = `${p.size}px "Fira Code", "Courier New", monospace`;
+        ctx.fillText(p.text, p.x, p.y);
+      }
+      ctx.restore();
+    };
+
+    const drawFloatingSymbols = (time) => {
+      ctx.save();
+      for (const s of floatingSymbols) {
+        s.x += s.vx;
+        s.y += s.vy;
+        s.rotation += s.rotSpeed;
+
+        // Wrap
+        if (s.x < -50) s.x = width + 50;
+        if (s.x > width + 50) s.x = -50;
+        if (s.y < -50) s.y = height + 50;
+        if (s.y > height + 50) s.y = -50;
+
+        ctx.save();
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.rotation);
+        ctx.globalAlpha = s.opacity;
+        ctx.font = `${s.size}px "Inter", serif`;
+        ctx.fillStyle = 'rgba(150, 200, 255, 0.8)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(s.symbol, 0, 0);
+        ctx.restore();
+      }
+      ctx.restore();
+    };
+
+    const drawVignette = () => {
+      const gradient = ctx.createRadialGradient(
+        width / 2, height / 2, height * 0.2,
+        width / 2, height / 2, height * 0.9
+      );
+      gradient.addColorStop(0, 'rgba(6, 12, 24, 0)');
+      gradient.addColorStop(1, 'rgba(4, 8, 16, 0.7)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+    };
+
+    // ─── Initialize ────────────────────────────────────────────
+    resize();
+    initNodes();
+    initBellCurves();
+    initCodeParticles();
+    initFloatingSymbols();
+
+    window.addEventListener('resize', () => {
+      resize();
+      initNodes();
+      initBellCurves();
+      initCodeParticles();
+      initFloatingSymbols();
+    });
+
+    // ─── Render Loop ───────────────────────────────────────────
+    const render = (timestamp) => {
+      const time = timestamp * 0.001;
+
+      // Clear
+      ctx.clearRect(0, 0, width, height);
+
+      // Background gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, width * 0.3, height);
+      bgGrad.addColorStop(0, '#060c1a');
+      bgGrad.addColorStop(0.4, '#0a1628');
+      bgGrad.addColorStop(0.7, '#081420');
+      bgGrad.addColorStop(1, '#050b15');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw layers
+      drawGrid(time);
+      drawBellCurves(time);
+      drawFloatingSymbols(time);
+      drawCodeParticles(time);
+      drawNodes(time);
+      drawVignette();
 
       animationFrameId = requestAnimationFrame(render);
     };
 
     animationFrameId = requestAnimationFrame(render);
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
-      gl.deleteProgram(program);
-      gl.deleteShader(vertexShader);
-      gl.deleteShader(fragmentShader);
-      gl.deleteBuffer(positionBuffer);
+      window.removeEventListener('resize', resize);
     };
   }, []);
 
