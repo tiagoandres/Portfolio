@@ -1,4 +1,5 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { GlassFilters } from "glass-refraction";
 import "glass-refraction/css";
 import AnimatedBackground from './components/AnimatedBackground';
@@ -13,6 +14,7 @@ import Contact from './components/Contact';
 function App() {
   return (
     <>
+      <Analytics />
       <AnimatedBackground />
       <div className="portfolio-app">
         <GlassFilters />
