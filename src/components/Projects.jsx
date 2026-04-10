@@ -10,23 +10,12 @@ const Projects = () => {
 
     const projects = [
         {
-            id: 1,
-            title: t('proj1_title'),
-            description: t('proj1_desc'),
-            tech: ["Power BI", "DAX", "SQL"],
-            iframes: [
-                "https://app.powerbi.com/view?r=eyJrIjoiN2E3NTAwNWUtZjMyMi00NjQ0LTgyMDEtMWM5ODE5ZTcyYmZiIiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9",
-                "https://app.powerbi.com/view?r=eyJrIjoiOWNlMWRkMTgtYjlmZi00MmNhLWExNTItYjU5NzFhNTRhOGM5IiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9"
-            ],
-            link: "#"
-        },
-        {
             id: 4,
             title: t('proj4_title'),
             description: t('proj4_desc'),
             tech: ["Supabase", "PostgreSQL", "Next.js", "React", "Tailwind CSS"],
-            iframes: ["/resumen-ucv.pdf"], // Abrirá el PDF en el modal
-            link: "https://evaluacion-curricular.vercel.app/" // Link externo al proyecto
+            iframes: ["/resumen-ucv.pdf"],
+            link: "https://evaluacion-curricular.vercel.app/"
         },
         {
             id: 2,
@@ -35,6 +24,17 @@ const Projects = () => {
             tech: ["Python", "Machine Learning", "Pandas", "Data Science"],
             iframes: [
                 "/Segmentación_campañas.html"
+            ],
+            link: "#"
+        },
+        {
+            id: 1,
+            title: t('proj1_title'),
+            description: t('proj1_desc'),
+            tech: ["Power BI", "DAX", "SQL"],
+            iframes: [
+                "https://app.powerbi.com/view?r=eyJrIjoiN2E3NTAwNWUtZjMyMi00NjQ0LTgyMDEtMWM5ODE5ZTcyYmZiIiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9",
+                "https://app.powerbi.com/view?r=eyJrIjoiOWNlMWRkMTgtYjlmZi00MmNhLWExNTItYjU5NzFhNTRhOGM5IiwidCI6IjE4OTdjYjgzLThhYWItNDY5MS1iMTRkLWJhNjFiYTk1OTg5MiIsImMiOjR9"
             ],
             link: "#"
         },
