@@ -18,7 +18,7 @@
 }
 
 .contact-text {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-muted);
     margin-bottom: 2rem;
     line-height: 1.6;
 }
@@ -32,7 +32,7 @@
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-faint);
     margin-bottom: 0.5rem;
 }
 
@@ -67,17 +67,17 @@
 .form-group label {
     font-size: 0.9rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-muted);
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 0.8rem 1rem;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
     border-radius: 8px;
-    color: white;
+    color: var(--text-color);
     font-family: inherit;
     font-size: 1rem;
     transition: all 0.3s ease;
@@ -87,7 +87,7 @@
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 0 2px var(--focus-shadow);
 }
 
 .btn-block {
@@ -98,7 +98,7 @@
 .status-message {
     margin-top: 1rem;
     padding: 1rem;
-    background: rgba(16, 185, 129, 0.1);
+    background: var(--status-bg);
     color: var(--accent-color);
     border-radius: 8px;
     text-align: center;

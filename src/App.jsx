@@ -27,7 +27,7 @@ function App() {
           <Publications />
           <Contact />
         </main>
-        <footer style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid var(--border-color)', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem' }}>
+        <footer style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid var(--border-color)', color: 'var(--footer-color)', fontSize: '0.9rem' }}>
           <p>&copy; {new Date().getFullYear()} Santiago. Diseñado en React.</p>
         </footer>
       </div>

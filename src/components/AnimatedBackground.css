@@ -5,8 +5,8 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background: #060c1a;
-    /* Deep dark blue fallback */
+    background: var(--bg-deep);
+    transition: background 0.4s ease;
 }
 
 /* ─── Canvas ────────────────────────────────────────────── */

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Glass } from 'glass-refraction';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import './Header.css';
 
 const Header = () => {
     const { language, setLanguage, t } = useLanguage();
+    const { theme, toggleTheme } = useTheme();
     const [activeSection, setActiveSection] = useState('hero');
     const [menuOpen, setMenuOpen] = useState(false);
     const [langMenuOpen, setLangMenuOpen] = useState(false);
@@ -62,6 +64,18 @@ const Header = () => {
                 </nav>
 
                 <div className="header-right">
+                    {/* Theme toggle */}
+                    <button
+                        className="theme-toggle"
+                        onClick={toggleTheme}
+                        aria-label="Toggle theme"
+                        title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+                    >
+                        <span className="theme-icon">
+                            {theme === 'dark' ? '☀️' : '🌙'}
+                        </span>
+                    </button>
+
                     <div className="lang-selector" onMouseLeave={() => setLangMenuOpen(false)}>
                         <button
                             className="lang-toggle"

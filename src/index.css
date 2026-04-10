@@ -1,21 +1,59 @@
 /* Base styles and variables */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* ── Dark mode (default) ─────────────────────────────────── */
 :root {
   --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --bg-color: #0a1628;
-  /* Deep navy */
+  --bg-deep: #060c1a;
   --text-color: #e8f0fa;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --text-soft: rgba(255, 255, 255, 0.55);
+  --text-faint: rgba(255, 255, 255, 0.5);
   --primary-color: #50d8ff;
-  /* Cyan */
   --secondary-color: #8b5cf6;
-  /* Purple */
   --accent-color: #64ffaa;
-  /* Mint green */
 
   --bg-surface: rgba(12, 28, 52, 0.7);
-  /* For glassmorphism */
   --border-color: rgba(80, 200, 255, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-bg-hover: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --card-border-hover: rgba(255, 255, 255, 0.15);
+  --overlay-bg: rgba(0, 0, 0, 0.1);
+  --input-bg: rgba(0, 0, 0, 0.2);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --divider: rgba(255, 255, 255, 0.1);
+  --divider-soft: rgba(255, 255, 255, 0.06);
+  --tag-bg: rgba(139, 92, 246, 0.1);
+  --tag-border: rgba(139, 92, 246, 0.2);
+  --active-bg: rgba(59, 130, 246, 0.2);
+  --active-shadow: rgba(59, 130, 246, 0.4);
+  --active-hover-bg: rgba(59, 130, 246, 0.15);
+  --active-strong-bg: rgba(59, 130, 246, 0.3);
+  --btn-hover-bg: rgba(255, 255, 255, 0.05);
+  --btn-bg: rgba(255, 255, 255, 0.05);
+  --btn-border: rgba(255, 255, 255, 0.1);
+  --btn-border-hover: rgba(255, 255, 255, 0.2);
+  --edu-date-bg: rgba(255, 255, 255, 0.1);
+  --skill-hover-bg: rgba(59, 130, 246, 0.1);
+  --modal-bg: rgba(20, 20, 30, 0.95);
+  --modal-border: rgba(255, 255, 255, 0.1);
+  --mobile-nav-bg: rgba(10, 15, 30, 0.92);
+  --dropdown-bg: rgba(10, 15, 30, 0.95);
+  --mobile-overlay-bg: rgba(0, 0, 0, 0.45);
+  --footer-color: rgba(255, 255, 255, 0.6);
+  --status-bg: rgba(16, 185, 129, 0.1);
+  --focus-shadow: rgba(59, 130, 246, 0.2);
+  --pub-acronym-bg: rgba(59, 130, 246, 0.12);
+  --pub-card-hover-shadow: rgba(59, 130, 246, 0.15);
+  --pdf-modal-bg: rgba(15, 23, 42, 0.92);
+  --pdf-modal-border: rgba(255, 255, 255, 0.12);
+  --pdf-header-bg: rgba(255, 255, 255, 0.03);
+  --pdf-close-bg: rgba(255, 255, 255, 0.07);
+  --pdf-close-border: rgba(255, 255, 255, 0.1);
+  --pdf-close-color: rgba(255, 255, 255, 0.8);
+  --pdf-close-hover-bg: rgba(255, 255, 255, 0.15);
 
   /* Glass Refraction Overrides */
   --gr-blur: 40px;
@@ -28,10 +66,76 @@
   --gr-chromatic-violet: rgba(120, 80, 255, 0.10);
   --gr-chromatic-pink: rgba(255, 140, 60, 0.08);
   --gr-chromatic-green: rgba(100, 255, 170, 0.12);
+
+  /* Theme transition */
+  --transition-theme: color 0.4s ease, background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ── Light mode ──────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-color: #f0f4f8;
+  --bg-deep: #e4eaf1;
+  --text-color: #1a2332;
+  --text-muted: rgba(26, 35, 50, 0.75);
+  --text-soft: rgba(26, 35, 50, 0.55);
+  --text-faint: rgba(26, 35, 50, 0.5);
+  --primary-color: #0891b2;
+  --secondary-color: #7c3aed;
+  --accent-color: #059669;
+
+  --bg-surface: rgba(255, 255, 255, 0.7);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-bg-hover: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --card-border-hover: rgba(0, 0, 0, 0.15);
+  --overlay-bg: rgba(0, 0, 0, 0.04);
+  --input-bg: rgba(255, 255, 255, 0.8);
+  --input-border: rgba(0, 0, 0, 0.12);
+  --divider: rgba(0, 0, 0, 0.1);
+  --divider-soft: rgba(0, 0, 0, 0.06);
+  --tag-bg: rgba(124, 58, 237, 0.08);
+  --tag-border: rgba(124, 58, 237, 0.2);
+  --active-bg: rgba(8, 145, 178, 0.12);
+  --active-shadow: rgba(8, 145, 178, 0.3);
+  --active-hover-bg: rgba(8, 145, 178, 0.08);
+  --active-strong-bg: rgba(8, 145, 178, 0.2);
+  --btn-hover-bg: rgba(0, 0, 0, 0.04);
+  --btn-bg: rgba(0, 0, 0, 0.04);
+  --btn-border: rgba(0, 0, 0, 0.12);
+  --btn-border-hover: rgba(0, 0, 0, 0.2);
+  --edu-date-bg: rgba(0, 0, 0, 0.06);
+  --skill-hover-bg: rgba(8, 145, 178, 0.08);
+  --modal-bg: rgba(255, 255, 255, 0.98);
+  --modal-border: rgba(0, 0, 0, 0.1);
+  --mobile-nav-bg: rgba(255, 255, 255, 0.95);
+  --dropdown-bg: rgba(255, 255, 255, 0.98);
+  --mobile-overlay-bg: rgba(0, 0, 0, 0.25);
+  --footer-color: rgba(26, 35, 50, 0.6);
+  --status-bg: rgba(5, 150, 105, 0.1);
+  --focus-shadow: rgba(8, 145, 178, 0.2);
+  --pub-acronym-bg: rgba(8, 145, 178, 0.1);
+  --pub-card-hover-shadow: rgba(8, 145, 178, 0.12);
+  --pdf-modal-bg: rgba(255, 255, 255, 0.96);
+  --pdf-modal-border: rgba(0, 0, 0, 0.1);
+  --pdf-header-bg: rgba(0, 0, 0, 0.02);
+  --pdf-close-bg: rgba(0, 0, 0, 0.05);
+  --pdf-close-border: rgba(0, 0, 0, 0.1);
+  --pdf-close-color: rgba(26, 35, 50, 0.8);
+  --pdf-close-hover-bg: rgba(0, 0, 0, 0.1);
+
+  /* Glass Refraction Overrides - Light */
+  --gr-bg-start: rgba(255, 255, 255, 0.5);
+  --gr-bg-end: rgba(240, 244, 248, 0.4);
+  --gr-chromatic-blue: rgba(8, 145, 178, 0.08);
+  --gr-chromatic-violet: rgba(124, 58, 237, 0.06);
+  --gr-chromatic-pink: rgba(255, 140, 60, 0.05);
+  --gr-chromatic-green: rgba(5, 150, 105, 0.08);
 }
 
 html {
-  background-color: #060c1a;
+  background-color: var(--bg-deep);
+  transition: background-color 0.4s ease;
 }
 
 body {
@@ -42,6 +146,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  transition: color 0.4s ease;
 }
 
 * {

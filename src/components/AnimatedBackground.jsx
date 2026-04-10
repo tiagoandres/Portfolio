@@ -1,8 +1,16 @@
 import React, { useEffect, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import './AnimatedBackground.css';
 
 const AnimatedBackground = () => {
   const canvasRef = useRef(null);
+  const { theme } = useTheme();
+  const themeRef = useRef(theme);
+
+  // Keep ref in sync
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -63,7 +71,6 @@ const AnimatedBackground = () => {
           vx: (Math.random() - 0.5) * 0.4,
           vy: (Math.random() - 0.5) * 0.4,
           radius: Math.random() * 2.5 + 1,
-          // Color variety: cyan, green, orange, purple
           colorIdx: Math.floor(Math.random() * 4),
           pulse: Math.random() * Math.PI * 2,
         });
@@ -80,7 +87,6 @@ const AnimatedBackground = () => {
           amplitude: 80 + Math.random() * 60,
           phase: Math.random() * Math.PI * 2,
           speed: 0.3 + Math.random() * 0.4,
-          // 0=cyan, 1=green, 2=orange
           colorIdx: i % 3,
           drift: (Math.random() - 0.5) * 0.15,
         });
@@ -118,20 +124,36 @@ const AnimatedBackground = () => {
       }
     };
 
-    const nodeColors = [
+    // ─── Theme-aware colors ─────────────────────────────────────
+    const darkNodeColors = [
       [0, 200, 255],    // Cyan
       [80, 255, 160],   // Green
       [255, 160, 50],   // Orange
       [140, 100, 255],  // Purple
     ];
 
-    const curveColors = [
-      { r: 80, g: 210, b: 255 },   // Cyan
-      { r: 100, g: 255, b: 170 },  // Green
-      { r: 255, g: 180, b: 60 },   // Orange
+    const lightNodeColors = [
+      [8, 145, 178],    // Teal
+      [5, 150, 105],    // Green
+      [217, 119, 6],    // Amber
+      [124, 58, 237],   // Purple
     ];
 
-    // Gaussian function
+    const darkCurveColors = [
+      { r: 80, g: 210, b: 255 },
+      { r: 100, g: 255, b: 170 },
+      { r: 255, g: 180, b: 60 },
+    ];
+
+    const lightCurveColors = [
+      { r: 8, g: 145, b: 178 },
+      { r: 5, g: 150, b: 105 },
+      { r: 217, g: 119, b: 6 },
+    ];
+
+    const getNodeColors = () => themeRef.current === 'dark' ? darkNodeColors : lightNodeColors;
+    const getCurveColors = () => themeRef.current === 'dark' ? darkCurveColors : lightCurveColors;
+
     const gaussian = (x, mu, sigma) => {
       return Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
     };
@@ -139,10 +161,12 @@ const AnimatedBackground = () => {
     const drawGrid = (time) => {
       ctx.save();
       const offset = (time * 8) % GRID_SPACING;
-      ctx.strokeStyle = 'rgba(30, 80, 120, 0.06)';
+      const isLight = themeRef.current === 'light';
+      ctx.strokeStyle = isLight
+        ? 'rgba(8, 145, 178, 0.06)'
+        : 'rgba(30, 80, 120, 0.06)';
       ctx.lineWidth = 0.5;
 
-      // Vertical lines
       for (let x = -offset; x < width + GRID_SPACING; x += GRID_SPACING) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
@@ -150,7 +174,6 @@ const AnimatedBackground = () => {
         ctx.stroke();
       }
 
-      // Horizontal lines
       for (let y = -offset; y < height + GRID_SPACING; y += GRID_SPACING) {
         ctx.beginPath();
         ctx.moveTo(0, y);
@@ -161,13 +184,14 @@ const AnimatedBackground = () => {
     };
 
     const drawNodes = (time) => {
-      // Update positions
+      const nodeColors = getNodeColors();
+      const isLight = themeRef.current === 'light';
+
       for (const node of nodes) {
         node.x += node.vx;
         node.y += node.vy;
         node.pulse += 0.02;
 
-        // Wrap around
         if (node.x < -20) node.x = width + 20;
         if (node.x > width + 20) node.x = -20;
         if (node.y < -20) node.y = height + 20;
@@ -182,7 +206,7 @@ const AnimatedBackground = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < CONNECTION_DIST) {
-            const opacity = (1 - dist / CONNECTION_DIST) * 0.15;
+            const opacity = (1 - dist / CONNECTION_DIST) * (isLight ? 0.12 : 0.15);
             const c = nodeColors[nodes[i].colorIdx];
             ctx.strokeStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${opacity})`;
             ctx.lineWidth = 0.5;
@@ -200,17 +224,15 @@ const AnimatedBackground = () => {
         const pulseScale = 1 + Math.sin(node.pulse) * 0.3;
         const r = node.radius * pulseScale;
 
-        // Glow
         const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 4);
-        gradient.addColorStop(0, `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0.3)`);
+        gradient.addColorStop(0, `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${isLight ? 0.2 : 0.3})`);
         gradient.addColorStop(1, `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0)`);
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(node.x, node.y, r * 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Core
-        ctx.fillStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0.7)`;
+        ctx.fillStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${isLight ? 0.5 : 0.7})`;
         ctx.beginPath();
         ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
         ctx.fill();
@@ -218,6 +240,9 @@ const AnimatedBackground = () => {
     };
 
     const drawBellCurves = (time) => {
+      const curveColors = getCurveColors();
+      const isLight = themeRef.current === 'light';
+
       for (const curve of bellCurves) {
         const c = curveColors[curve.colorIdx];
         const phaseOffset = time * curve.speed + curve.phase;
@@ -225,9 +250,8 @@ const AnimatedBackground = () => {
         const currentSigma = curve.sigma + Math.sin(phaseOffset * 0.7) * 15;
 
         ctx.save();
-        ctx.globalAlpha = 0.12;
+        ctx.globalAlpha = isLight ? 0.08 : 0.12;
 
-        // Fill under curve
         ctx.beginPath();
         ctx.moveTo(currentCenterX - currentSigma * 4, curve.centerY);
         for (let x = -currentSigma * 4; x <= currentSigma * 4; x += 2) {
@@ -243,13 +267,12 @@ const AnimatedBackground = () => {
           currentCenterX, curve.centerY - curve.amplitude,
           currentCenterX, curve.centerY
         );
-        fillGrad.addColorStop(0, `rgba(${c.r}, ${c.g}, ${c.b}, 0.15)`);
+        fillGrad.addColorStop(0, `rgba(${c.r}, ${c.g}, ${c.b}, ${isLight ? 0.1 : 0.15})`);
         fillGrad.addColorStop(1, `rgba(${c.r}, ${c.g}, ${c.b}, 0.02)`);
         ctx.fillStyle = fillGrad;
         ctx.fill();
 
-        // Stroke the curve line
-        ctx.globalAlpha = 0.25;
+        ctx.globalAlpha = isLight ? 0.18 : 0.25;
         ctx.beginPath();
         for (let x = -currentSigma * 4; x <= currentSigma * 4; x += 2) {
           const g = gaussian(x, 0, currentSigma);
@@ -258,13 +281,12 @@ const AnimatedBackground = () => {
           if (x === -currentSigma * 4) ctx.moveTo(px, py);
           else ctx.lineTo(px, py);
         }
-        ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, 0.6)`;
+        ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${isLight ? 0.4 : 0.6})`;
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
         ctx.restore();
 
-        // Slowly drift curve center
         curve.centerX += curve.drift;
         if (curve.centerX < -200) curve.centerX = width + 200;
         if (curve.centerX > width + 200) curve.centerX = -200;
@@ -272,6 +294,7 @@ const AnimatedBackground = () => {
     };
 
     const drawCodeParticles = (time) => {
+      const isLight = themeRef.current === 'light';
       ctx.save();
       ctx.font = '12px "Fira Code", "Courier New", monospace';
 
@@ -284,7 +307,9 @@ const AnimatedBackground = () => {
         }
 
         ctx.globalAlpha = p.opacity;
-        ctx.fillStyle = `rgba(100, 200, 255, 1)`;
+        ctx.fillStyle = isLight
+          ? 'rgba(8, 145, 178, 1)'
+          : 'rgba(100, 200, 255, 1)';
         ctx.font = `${p.size}px "Fira Code", "Courier New", monospace`;
         ctx.fillText(p.text, p.x, p.y);
       }
@@ -292,13 +317,13 @@ const AnimatedBackground = () => {
     };
 
     const drawFloatingSymbols = (time) => {
+      const isLight = themeRef.current === 'light';
       ctx.save();
       for (const s of floatingSymbols) {
         s.x += s.vx;
         s.y += s.vy;
         s.rotation += s.rotSpeed;
 
-        // Wrap
         if (s.x < -50) s.x = width + 50;
         if (s.x > width + 50) s.x = -50;
         if (s.y < -50) s.y = height + 50;
@@ -309,7 +334,9 @@ const AnimatedBackground = () => {
         ctx.rotate(s.rotation);
         ctx.globalAlpha = s.opacity;
         ctx.font = `${s.size}px "Inter", serif`;
-        ctx.fillStyle = 'rgba(150, 200, 255, 0.8)';
+        ctx.fillStyle = isLight
+          ? 'rgba(8, 100, 160, 0.8)'
+          : 'rgba(150, 200, 255, 0.8)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(s.symbol, 0, 0);
@@ -319,12 +346,18 @@ const AnimatedBackground = () => {
     };
 
     const drawVignette = () => {
+      const isLight = themeRef.current === 'light';
       const gradient = ctx.createRadialGradient(
         width / 2, height / 2, height * 0.2,
         width / 2, height / 2, height * 0.9
       );
-      gradient.addColorStop(0, 'rgba(6, 12, 24, 0)');
-      gradient.addColorStop(1, 'rgba(4, 8, 16, 0.7)');
+      if (isLight) {
+        gradient.addColorStop(0, 'rgba(240, 244, 248, 0)');
+        gradient.addColorStop(1, 'rgba(228, 234, 241, 0.5)');
+      } else {
+        gradient.addColorStop(0, 'rgba(6, 12, 24, 0)');
+        gradient.addColorStop(1, 'rgba(4, 8, 16, 0.7)');
+      }
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
     };
@@ -336,27 +369,36 @@ const AnimatedBackground = () => {
     initCodeParticles();
     initFloatingSymbols();
 
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
       resize();
       initNodes();
       initBellCurves();
       initCodeParticles();
       initFloatingSymbols();
-    });
+    };
+
+    window.addEventListener('resize', handleResize);
 
     // ─── Render Loop ───────────────────────────────────────────
     const render = (timestamp) => {
       const time = timestamp * 0.001;
+      const isLight = themeRef.current === 'light';
 
-      // Clear
       ctx.clearRect(0, 0, width, height);
 
       // Background gradient
       const bgGrad = ctx.createLinearGradient(0, 0, width * 0.3, height);
-      bgGrad.addColorStop(0, '#060c1a');
-      bgGrad.addColorStop(0.4, '#0a1628');
-      bgGrad.addColorStop(0.7, '#081420');
-      bgGrad.addColorStop(1, '#050b15');
+      if (isLight) {
+        bgGrad.addColorStop(0, '#f0f4f8');
+        bgGrad.addColorStop(0.4, '#e8eef5');
+        bgGrad.addColorStop(0.7, '#edf2f7');
+        bgGrad.addColorStop(1, '#e4eaf1');
+      } else {
+        bgGrad.addColorStop(0, '#060c1a');
+        bgGrad.addColorStop(0.4, '#0a1628');
+        bgGrad.addColorStop(0.7, '#081420');
+        bgGrad.addColorStop(1, '#050b15');
+      }
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, width, height);
 
@@ -375,7 +417,7 @@ const AnimatedBackground = () => {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
