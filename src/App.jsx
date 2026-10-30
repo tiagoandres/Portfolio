@@ -1,8 +1,6 @@
 import React from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { GlassFilters } from "glass-refraction";
-import "glass-refraction/css";
-import AnimatedBackground from './components/AnimatedBackground';
+import { useLanguage } from './context/LanguageContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -12,12 +10,12 @@ import Publications from './components/Publications';
 import Contact from './components/Contact';
 
 function App() {
+  const { t } = useLanguage();
+
   return (
     <>
       <Analytics />
-      <AnimatedBackground />
       <div className="portfolio-app">
-        <GlassFilters />
         <Header />
         <main>
           <Hero />
@@ -27,8 +25,11 @@ function App() {
           <Publications />
           <Contact />
         </main>
-        <footer style={{ textAlign: 'center', padding: '2rem', borderTop: '1px solid var(--border-color)', color: 'var(--footer-color)', fontSize: '0.9rem' }}>
-          <p>&copy; {new Date().getFullYear()} Santiago. Diseñado en React.</p>
+        <footer className="site-footer">
+          <div className="container">
+            <span className="meta">&copy; {new Date().getFullYear()} Santiago Cárdenas</span>
+            <a href="#hero" className="meta">{t('footer_top')} ↑</a>
+          </div>
         </footer>
       </div>
     </>

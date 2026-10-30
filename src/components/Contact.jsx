@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { GlassCard } from 'glass-refraction';
 import { useLanguage } from '../context/LanguageContext';
 import './Contact.css';
+
+const EMAIL = 'santiagoace1411@gmail.com';
 
 const Contact = () => {
     const { t } = useLanguage();
@@ -20,7 +21,7 @@ const Contact = () => {
         const data = Object.fromEntries(formData.entries());
 
         try {
-            const response = await fetch("https://formsubmit.co/ajax/santiagoace1411@gmail.com", {
+            const response = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +36,7 @@ const Contact = () => {
             } else {
                 setStatus(t('contact_status_err_send'));
             }
-        } catch (error) {
+        } catch {
             setStatus(t('contact_status_err_net'));
         }
 
@@ -43,43 +44,51 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="contact-section">
-            <div className="container">
-                <h2 className="section-title">{t('contact_title')}</h2>
-                <div className="contact-wrapper">
-                    <GlassCard className="contact-info">
-                        <h3>{t('contact_subtitle')}</h3>
-                        <p className="contact-text">
-                            {t('contact_text')}
-                        </p>
-                        <div className="info-item">
-                            <span className="info-label">Email</span>
-                            <div className="social-links"></div>
-                            <a href="mailto:santiagoace1411@gmail.com">santiagoace1411@gmail.com</a>
+        <section id="contact" className="section contact-section">
+            <div className="container section-grid">
+                <p className="section-label"><span className="num">05</span>{t('nav_contact')}</p>
+
+                <div>
+                    <h2 className="section-title contact-title">{t('contact_subtitle')}</h2>
+
+                    <div className="contact-wrapper">
+                        <div className="contact-info">
+                            <p className="contact-text">{t('contact_text')}</p>
+                            <dl className="contact-channels">
+                                <div>
+                                    <dt className="meta">Email</dt>
+                                    <dd><a className="text-link" href={`mailto:${EMAIL}`}>{EMAIL}</a></dd>
+                                </div>
+                                <div>
+                                    <dt className="meta">LinkedIn</dt>
+                                    <dd>
+                                        <a className="text-link" href="https://www.linkedin.com/in/santiagocardenasucv/" target="_blank" rel="noopener noreferrer">
+                                            santiagocardenasucv <span className="arrow" aria-hidden="true">↗</span>
+                                        </a>
+                                    </dd>
+                                </div>
+                            </dl>
                         </div>
-                        <div className="info-item">
-                            <span className="info-label">Sociales</span>
-                            <div className="social-links">
-                                <a href="https://www.linkedin.com/in/santiagocardenasucv/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+
+                        <form className="contact-form" onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="name" className="meta">{t('contact_form_name')}</label>
+                                <input type="text" id="name" name="name" required placeholder={t('contact_form_name_ph')} />
                             </div>
-                        </div>
-                    </GlassCard>
-                    <GlassCard as="form" className="contact-form" onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="name">{t('contact_form_name')}</label>
-                            <input type="text" id="name" name="name" required placeholder={t('contact_form_name_ph')} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">{t('contact_form_email')}</label>
-                            <input type="email" id="email" name="email" required placeholder={t('contact_form_email_ph')} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="message">{t('contact_form_msg')}</label>
-                            <textarea id="message" name="message" rows="5" required placeholder={t('contact_form_msg_ph')}></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary btn-block">{t('contact_btn_send')}</button>
-                        {status && <div className="status-message">{status}</div>}
-                    </GlassCard>
+                            <div className="form-group">
+                                <label htmlFor="email" className="meta">{t('contact_form_email')}</label>
+                                <input type="email" id="email" name="email" required placeholder={t('contact_form_email_ph')} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="message" className="meta">{t('contact_form_msg')}</label>
+                                <textarea id="message" name="message" rows="4" required placeholder={t('contact_form_msg_ph')}></textarea>
+                            </div>
+                            <div className="form-actions">
+                                <button type="submit" className="btn btn-solid">{t('contact_btn_send')}</button>
+                                <p className="status-message" role="status" aria-live="polite">{status}</p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>

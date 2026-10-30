@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { GlassCard } from 'glass-refraction';
+import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import ViewerModal from './ViewerModal';
 import './Publications.css';
 
 const publications = [
@@ -8,7 +8,7 @@ const publications = [
         id: 1,
         title: "CUBUS-I",
         fullTitle: "Diseño, Validez, Confiabilidad y Normas del Cuestionario de Búsqueda de Sensaciones I",
-        description: "Desarrollo y validación psicométrica de un instrumento para medir la búsqueda de sensaciones en población hispanohablante.",
+        descKey: 'pub1_desc',
         tags: ["Psicometría", "Validez", "Cuestionario"],
         pdf: "/cubus-i.pdf"
     },
@@ -16,7 +16,7 @@ const publications = [
         id: 2,
         title: "E-SAMP",
         fullTitle: "Diseño, Validez, Confiabilidad y Normas de la Escala de Salud Mental Positiva",
-        description: "Construcción y validación de una escala para evaluar el bienestar psicológico y la salud mental desde una perspectiva positiva.",
+        descKey: 'pub2_desc',
         tags: ["Salud Mental", "Psicometría", "Bienestar"],
         pdf: "/e-samp.pdf"
     }
@@ -26,79 +26,42 @@ const Publications = () => {
     const { t } = useLanguage();
     const [selectedPdf, setSelectedPdf] = useState(null);
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === 'Escape') setSelectedPdf(null);
-        };
-        if (selectedPdf) {
-            document.addEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = '';
-        };
-    }, [selectedPdf]);
-
     return (
-        <>
-            <section id="publications" className="publications-section">
-                <div className="container">
+        <section id="publications" className="section publications-section">
+            <div className="container section-grid">
+                <p className="section-label"><span className="num">04</span>{t('nav_publications')}</p>
+
+                <div>
                     <h2 className="section-title">{t('pub_title')}</h2>
-                    <p className="publications-subtitle">
-                        {t('pub_subtitle')}
-                    </p>
-                    <div className="publications-grid">
+                    <p className="publications-subtitle">{t('pub_subtitle')}</p>
+
+                    <div className="pub-list">
                         {publications.map((pub) => (
-                            <GlassCard key={pub.id} className="pub-card">
-                                <div className="pub-content">
-                                    <div className="pub-icon">📄</div>
-                                    <span className="pub-acronym">{pub.title}</span>
-                                    <h3 className="pub-title">{pub.fullTitle}</h3>
-                                    <p className="pub-desc">{t(pub.id === 1 ? 'pub1_desc' : 'pub2_desc')}</p>
-                                    <div className="pub-tags">
-                                        {pub.tags.map((tag, i) => (
-                                            <span key={i} className="pub-tag">{tag}</span>
-                                        ))}
-                                    </div>
-                                </div>
+                            <article key={pub.id} className="pub-item">
+                                <span className="pub-acronym meta">{pub.title}</span>
+                                <h3 className="pub-title">{pub.fullTitle}</h3>
+                                <p className="pub-desc">{t(pub.descKey)}</p>
                                 <div className="pub-footer">
-                                    <button
-                                        className="btn-view"
-                                        onClick={() => setSelectedPdf(pub)}
-                                    >
-                                        {t('pub_btn_view')}
+                                    <span className="meta">{pub.tags.join(' · ')}</span>
+                                    <button className="text-link" onClick={() => setSelectedPdf(pub)}>
+                                        {t('pub_btn_view')} <span className="arrow" aria-hidden="true">→</span>
                                     </button>
                                 </div>
-                            </GlassCard>
+                            </article>
                         ))}
                     </div>
                 </div>
-            </section>
+            </div>
 
             {selectedPdf && (
-                <div className="pdf-overlay" onClick={() => setSelectedPdf(null)}>
-                    <div className="pdf-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="pdf-modal-header">
-                            <div className="pdf-modal-title">
-                                <span className="pdf-modal-acronym">{selectedPdf.title}</span>
-                                <span className="pdf-modal-subtitle">{selectedPdf.fullTitle}</span>
-                            </div>
-                            <button className="pdf-close-btn" onClick={() => setSelectedPdf(null)}>✕</button>
-                        </div>
-                        <div className="pdf-viewer-wrapper">
-                            <iframe
-                                src={selectedPdf.pdf}
-                                title={selectedPdf.fullTitle}
-                                className="pdf-iframe"
-                            />
-                        </div>
-                    </div>
-                </div>
+                <ViewerModal
+                    eyebrow={selectedPdf.title}
+                    title={selectedPdf.fullTitle}
+                    sources={[selectedPdf.pdf]}
+                    onClose={() => setSelectedPdf(null)}
+                />
             )}
-        </>
+        </section>
     );
 };
 

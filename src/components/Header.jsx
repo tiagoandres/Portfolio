@@ -1,136 +1,112 @@
 import React, { useState, useEffect } from 'react';
-import { Glass } from 'glass-refraction';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import './Header.css';
 
+const SECTION_IDS = ['about', 'experience', 'projects', 'publications', 'contact'];
+
 const Header = () => {
     const { language, setLanguage, t } = useLanguage();
     const { theme, toggleTheme } = useTheme();
-    const [activeSection, setActiveSection] = useState('hero');
+    const [activeSection, setActiveSection] = useState('');
     const [menuOpen, setMenuOpen] = useState(false);
-    const [langMenuOpen, setLangMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
-    const NAV_ITEMS = [
-        { id: 'hero', label: t('nav_start') },
-        { id: 'about', label: t('nav_about') },
-        { id: 'experience', label: t('nav_experience') },
-        { id: 'projects', label: t('nav_projects') },
-        { id: 'publications', label: t('nav_publications') },
-        { id: 'contact', label: t('nav_contact') },
-    ];
+    const NAV_ITEMS = SECTION_IDS.map(id => ({ id, label: t(`nav_${id}`) }));
 
-    // Close menu when clicking a nav link
-    const handleNavClick = () => setMenuOpen(false);
-
-    // Close menu on outside click / escape
     useEffect(() => {
         const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
     }, []);
 
-    // Active section tracker
+    // Active section + header border once the page has scrolled
     useEffect(() => {
         const handleScroll = () => {
-            const ids = NAV_ITEMS.map(n => n.id);
-            let current = 'hero';
-            for (const id of ids) {
+            let current = '';
+            for (const id of SECTION_IDS) {
                 const el = document.getElementById(id);
-                if (el && el.getBoundingClientRect().top <= 150) current = id;
+                if (el && el.getBoundingClientRect().top <= 160) current = id;
             }
             setActiveSection(current);
+            setScrolled(window.scrollY > 8);
         };
-        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    return (
-        <Glass as="header" className="header">
-            <div className="header-container">
-                <div className="logo">Portafolio</div>
+    useEffect(() => {
+        document.body.style.overflow = menuOpen ? 'hidden' : '';
+    }, [menuOpen]);
 
-                {/* Desktop nav */}
-                <nav className="nav-links">
-                    {NAV_ITEMS.map(({ id, label }) => (
-                        <a
-                            key={id}
-                            href={`#${id}`}
-                            className={activeSection === id ? 'active' : ''}
-                        >
-                            {label}
-                        </a>
-                    ))}
+    const navLinks = (onClick) => NAV_ITEMS.map(({ id, label }, i) => (
+        <a
+            key={id}
+            href={`#${id}`}
+            className={activeSection === id ? 'active' : ''}
+            aria-current={activeSection === id ? 'true' : undefined}
+            onClick={onClick}
+        >
+            <span className="nav-num">{String(i + 1).padStart(2, '0')}</span>
+            {label}
+        </a>
+    ));
+
+    return (
+        <header className={`header${scrolled ? ' is-scrolled' : ''}`}>
+            <div className="header-container">
+                <a href="#hero" className="logo" onClick={() => setMenuOpen(false)}>
+                    Santiago Cárdenas
+                </a>
+
+                <nav className="nav-links" aria-label="Principal">
+                    {navLinks()}
                 </nav>
 
                 <div className="header-right">
-                    {/* Theme toggle */}
+                    <div className="lang-switch" role="group" aria-label={t('lang_label')}>
+                        {['ES', 'EN'].map(code => (
+                            <button
+                                key={code}
+                                className={language === code ? 'active' : ''}
+                                aria-pressed={language === code}
+                                onClick={() => setLanguage(code)}
+                            >
+                                {code}
+                            </button>
+                        ))}
+                    </div>
+
                     <button
                         className="theme-toggle"
                         onClick={toggleTheme}
-                        aria-label="Toggle theme"
-                        title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+                        aria-label={theme === 'dark' ? t('theme_to_light') : t('theme_to_dark')}
+                        title={theme === 'dark' ? t('theme_to_light') : t('theme_to_dark')}
                     >
-                        <span className="theme-icon">
-                            {theme === 'dark' ? '☀️' : '🌙'}
-                        </span>
+                        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                            <circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                            <path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor" />
+                        </svg>
                     </button>
 
-                    <div className="lang-selector" onMouseLeave={() => setLangMenuOpen(false)}>
-                        <button
-                            className="lang-toggle"
-                            onClick={() => setLangMenuOpen(!langMenuOpen)}
-                            aria-label="Cambiar idioma"
-                        >
-                            🌍 {language}
-                        </button>
-                        {langMenuOpen && (
-                            <div className="lang-dropdown">
-                                <button
-                                    className={`lang-option ${language === 'ES' ? 'active' : ''}`}
-                                    onClick={() => { setLanguage('ES'); setLangMenuOpen(false); }}
-                                >
-                                    ES - Español
-                                </button>
-                                <button
-                                    className={`lang-option ${language === 'EN' ? 'active' : ''}`}
-                                    onClick={() => { setLanguage('EN'); setLangMenuOpen(false); }}
-                                >
-                                    EN - English
-                                </button>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Hamburger button (mobile only) */}
                     <button
-                        className={`hamburger${menuOpen ? ' is-open' : ''}`}
+                        className="menu-toggle"
                         onClick={() => setMenuOpen(o => !o)}
-                        aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-nav"
                     >
-                        <span /><span /><span />
+                        {menuOpen ? t('menu_close') : t('menu_open')}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile drawer */}
             {menuOpen && (
-                <div className="mobile-overlay" onClick={() => setMenuOpen(false)}>
-                    <nav className="mobile-nav" onClick={e => e.stopPropagation()}>
-                        {NAV_ITEMS.map(({ id, label }) => (
-                            <a
-                                key={id}
-                                href={`#${id}`}
-                                className={activeSection === id ? 'active' : ''}
-                                onClick={handleNavClick}
-                            >
-                                {label}
-                            </a>
-                        ))}
-                    </nav>
-                </div>
+                <nav id="mobile-nav" className="mobile-nav" aria-label="Principal">
+                    {navLinks(() => setMenuOpen(false))}
+                </nav>
             )}
-        </Glass>
+        </header>
     );
 };
 
