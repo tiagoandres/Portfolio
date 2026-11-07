@@ -228,3 +228,5 @@ code {
 .cs-foot { border-top: 1px solid var(--rule); padding: 1.5rem 0; margin-top: 2rem; }
 .cs-foot-inner { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.78rem; color: var(--ink-faint); }
 .cs-foot a:hover { color: var(--accent); }
+
+.cs-fine { margin-top: 0.75rem; font-size: 0.85rem; color: var(--ink-faint); }

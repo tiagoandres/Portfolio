@@ -15,6 +15,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'index.html'),
         airlineDemo: resolve(import.meta.dirname, 'demo/airline-bi/index.html'),
         airlineCase: resolve(import.meta.dirname, 'casos/airline-bi/index.html'),
+        evaluacionCase: resolve(import.meta.dirname, 'casos/evaluacion-curricular/index.html'),
       }
     }
   }

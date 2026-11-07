@@ -21,9 +21,10 @@ const Projects = () => {
             id: 4,
             title: t('proj4_title'),
             description: t('proj4_desc'),
-            tech: ["Supabase", "PostgreSQL", "Next.js", "React", "Tailwind CSS"],
-            iframes: ["/resumen-ucv.pdf"],
-            link: "https://evaluacion-curricular.vercel.app/"
+            tech: ["Apps Script", "Supabase", "PostgreSQL", "Next.js", "React", "Recharts"],
+            iframes: ["/casos/evaluacion-curricular/"],
+            link: "https://evaluacion-curricular.vercel.app/",
+            summaryLabel: 'proj_btn_case'
         },
         {
             id: 2,
@@ -83,12 +84,12 @@ const Projects = () => {
                                         </>
                                     ) : project.link ? (
                                         <>
+                                            <button className="text-link" onClick={() => setSelectedProject(project)}>
+                                                {t(project.summaryLabel || 'proj_btn_summary')}
+                                            </button>
                                             <a href={project.link} className="text-link" target="_blank" rel="noreferrer">
                                                 {t('proj_btn_project')} <span className="arrow" aria-hidden="true">↗</span>
                                             </a>
-                                            <button className="text-link" onClick={() => setSelectedProject(project)}>
-                                                {t('proj_btn_summary')}
-                                            </button>
                                         </>
                                     ) : (
                                         <button className="text-link" onClick={() => setSelectedProject(project)}>

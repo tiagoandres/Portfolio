@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Caso de estudio: hub de evaluación curricular de la Escuela de Psicología UCV, de Google Forms a Supabase y una app web con acceso por rol. Santiago Cárdenas." />
+    <title>Caso de estudio · Hub de Evaluación Curricular — Santiago Cárdenas</title>
+    <script>
+      try {
+        var t = localStorage.getItem('portfolio_theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('portfolio_lang') === 'EN' ? 'en' : 'es';
+        document.documentElement.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <header class="cs-top">
+      <div class="cs-wrap cs-top-inner">
+        <a class="cs-back mono" href="/#projects" target="_top"><span class="l-es">← Portafolio</span><span class="l-en">← Portfolio</span></a>
+        <div class="cs-top-actions">
+          <a class="cs-link" href="https://evaluacion-curricular.vercel.app/" target="_blank" rel="noreferrer"><span class="l-es">Ver sitio</span><span class="l-en">Visit site</span> ↗</a>
+          <button class="cs-btn mono" id="lang-toggle" type="button" aria-label="Language"><span class="l-es">EN</span><span class="l-en">ES</span></button>
+          <button class="cs-btn" id="theme-toggle" type="button" aria-label="Theme">◐</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="cs-wrap">
+      <!-- ── Hero ─────────────────────────────────────── -->
+      <section class="cs-hero">
+        <p class="cs-eyebrow mono"><span class="l-es">Caso de estudio · Analítica educativa</span><span class="l-en">Case study · Education analytics</span></p>
+        <h1 class="cs-title">
+          <span class="l-es">Un hub de evaluación curricular: de la opinión de los estudiantes a <em>decisiones académicas</em></span>
+          <span class="l-en">A curriculum evaluation hub: from student feedback to <em>academic decisions</em></span>
+        </h1>
+        <p class="cs-lede">
+          <span class="l-es">Diseñé y construí el sistema con el que la Escuela de Psicología de la Universidad Central de Venezuela procesa la evaluación integral de sus unidades curriculares: desde el formulario que llenan los estudiantes hasta los resultados que ve cada docente.</span>
+          <span class="l-en">I designed and built the system the School of Psychology at the Central University of Venezuela uses to process its course evaluations: from the form students fill in to the results each lecturer sees.</span>
+        </p>
+
+        <dl class="cs-facts">
+          <div><dt class="mono"><span class="l-es">Rol</span><span class="l-en">Role</span></dt><dd><span class="l-es">Diseño y desarrollo de punta a punta, en solitario</span><span class="l-en">End-to-end design and development, solo</span></dd></div>
+          <div><dt class="mono"><span class="l-es">Institución</span><span class="l-en">Institution</span></dt><dd><span class="l-es">Escuela de Psicología, UCV</span><span class="l-en">School of Psychology, UCV</span></dd></div>
+          <div><dt class="mono"><span class="l-es">Período</span><span class="l-en">Timeline</span></dt><dd><span class="l-es">Marzo – octubre de 2026</span><span class="l-en">March – October 2026</span></dd></div>
+          <div><dt class="mono">Stack</dt><dd>Google Forms · Apps Script · Supabase (PostgreSQL) · Next.js · React · Recharts · jsPDF · Vercel</dd></div>
+        </dl>
+      </section>
+
+      <!-- ── Summary ──────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">01</span><span class="l-es">En corto</span><span class="l-en">In short</span></h2>
+        <ul class="cs-summary">
+          <li>
+            <strong>74</strong>
+            <span class="l-es">ítems del instrumento convertidos en índices comparables de 0 a 100 por dimensión.</span>
+            <span class="l-en">instrument items turned into comparable 0–100 indices per dimension.</span>
+          </li>
+          <li>
+            <strong>4</strong>
+            <span class="l-es">niveles de acceso: la dirección, jefes de departamento, jefes de cátedra y cada profesor, que solo ve lo suyo.</span>
+            <span class="l-en">access levels: the director, department heads, chair heads, and each lecturer, who only sees their own results.</span>
+          </li>
+          <li>
+            <strong>0</strong>
+            <span class="l-es">cargas manuales: cada respuesta llega sola a la base de datos y al dashboard.</span>
+            <span class="l-en">manual uploads: every response flows on its own into the database and the dashboard.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── Problem ──────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">02</span><span class="l-es">El problema</span><span class="l-en">The problem</span></h2>
+        <div class="cs-prose">
+          <div class="l-es">
+            <p>La Escuela evalúa cada unidad curricular con un formulario de Google que los estudiantes responden al cierre del período. Las respuestas terminaban en una hoja de cálculo, con el mismo docente escrito de varias formas y sin una manera directa de resumirlas por asignatura, cátedra o departamento.</p>
+            <p>Consolidar los resultados era trabajo manual y los informes llegaban tarde. Además, la información es sensible: un profesor debe ver su evaluación, pero no la de sus colegas, mientras que la dirección y los jefes necesitan comparar dentro de su área.</p>
+          </div>
+          <div class="l-en">
+            <p>The School evaluates each course with a Google Form that students answer at the end of the term. Responses ended up in a spreadsheet, with the same lecturer spelled several ways and no direct way to summarise them by course, chair or department.</p>
+            <p>Consolidating results was manual work and reports arrived late. The information is also sensitive: a lecturer should see their own evaluation but not their colleagues', while the director and heads need to compare within their area.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Architecture ─────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">03</span><span class="l-es">La solución</span><span class="l-en">The solution</span></h2>
+        <div class="cs-prose">
+          <p class="l-es">Mantuve el formulario que la Escuela ya usaba y construí todo lo que viene después: un flujo automático hasta una base de datos y una aplicación web donde cada persona ve solo lo que le corresponde.</p>
+          <p class="l-en">I kept the form the School already used and built everything after it: an automatic flow into a database and a web app where each person only sees what they are entitled to.</p>
+        </div>
+
+        <ol class="pipe" aria-label="Pipeline">
+          <li class="pipe-step">
+            <span class="pipe-n mono">1</span>
+            <h3>Google Forms</h3>
+            <p class="l-es">El estudiante responde el instrumento de 74 ítems.</p>
+            <p class="l-en">Students answer the 74-item instrument.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">2</span>
+            <h3>Apps Script</h3>
+            <p class="l-es">Un script escucha cada respuesta, corrige acentos y estandariza nombres.</p>
+            <p class="l-en">A script listens for each response, fixes accents and standardises names.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">3</span>
+            <h3><span class="l-es">Datos brutos</span><span class="l-en">Raw data</span></h3>
+            <p class="l-es">La respuesta se guarda tal cual en Supabase (<code>datos_brutos</code>).</p>
+            <p class="l-en">The response is stored as is in Supabase (<code>datos_brutos</code>).</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">4</span>
+            <h3><span class="l-es">Datos limpios</span><span class="l-en">Clean data</span></h3>
+            <p class="l-es">Se transforma en índices de 0 a 100 por dimensión (<code>datos_limpios</code>).</p>
+            <p class="l-en">It is transformed into 0–100 indices per dimension (<code>datos_limpios</code>).</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">5</span>
+            <h3><span class="l-es">App web por rol</span><span class="l-en">Role-based web app</span></h3>
+            <p class="l-es">Next.js filtra los datos según quién inició sesión.</p>
+            <p class="l-en">Next.js filters the data by who is signed in.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">6</span>
+            <h3><span class="l-es">Reportes PDF</span><span class="l-en">PDF reports</span></h3>
+            <p class="l-es">Informes individuales por docente y por asignatura.</p>
+            <p class="l-en">Individual reports per lecturer and per course.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ── Decisions ────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">04</span><span class="l-es">Decisiones técnicas</span><span class="l-en">Technical decisions</span></h2>
+
+        <div class="cs-decisions">
+          <article class="dec">
+            <h3 class="l-es">Del cuestionario a indicadores que se pueden comparar</h3>
+            <h3 class="l-en">From questionnaire to comparable indicators</h3>
+            <div class="l-es">
+              <p>El instrumento tiene bloques de distinto tamaño: gestión de la unidad, contenidos y recursos, evaluación, desempeño docente y autovaloración del estudiante. Sumar ítems haría pesar más a los bloques largos, así que cada dimensión se transforma a una escala de 0 a 100, igual que el índice global de calidad de la unidad curricular. Esa es la misma lógica que enseño en Psicometría, aplicada a un sistema en producción.</p>
+            </div>
+            <div class="l-en">
+              <p>The instrument has blocks of different length: course management, content and resources, assessment, teaching performance and student self-assessment. Summing items would give long blocks more weight, so each dimension is transformed to a 0–100 scale, like the overall course-quality index. It is the same reasoning I teach in Psychometrics, applied to a production system.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Una capa bruta y una capa limpia</h3>
+            <h3 class="l-en">A raw layer and a clean layer</h3>
+            <div class="l-es">
+              <p>Cada respuesta se guarda primero tal como llegó y luego se transforma en otra tabla, que es la única que lee la aplicación. Si cambia una regla de limpieza o el cálculo de un índice, se vuelve a procesar desde el original sin perder nada ni pedir a los estudiantes que respondan otra vez.</p>
+            </div>
+            <div class="l-en">
+              <p>Each response is first stored exactly as it arrived and then transformed into a separate table, the only one the app reads. If a cleaning rule or an index calculation changes, everything is reprocessed from the original without losing data or asking students to answer again.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Un ranking que no premia a las muestras pequeñas</h3>
+            <h3 class="l-en">A ranking that does not reward small samples</h3>
+            <div class="l-es">
+              <p>Ordenar asignaturas solo por su índice pondría arriba a cursos con muy pocas respuestas y notas perfectas. El ranking multiplica el índice por el logaritmo del número de evaluaciones, para que una nota alta respaldada por muchas respuestas pese más que una nota alta casual.</p>
+            </div>
+            <div class="l-en">
+              <p>Ranking courses by index alone would put courses with very few, perfect responses at the top. The ranking multiplies the index by the logarithm of the number of evaluations, so a high score backed by many responses outweighs a lucky one.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Nombres que coinciden aunque estén mal escritos</h3>
+            <h3 class="l-en">Names that match even when misspelled</h3>
+            <div class="l-es">
+              <p>El nombre del docente es la llave entre las respuestas y las cuentas de usuario, y los estudiantes lo escriben de muchas maneras. Normalizo acentos, mayúsculas y espacios, y al registrarse cada profesor recibe sugerencias parecidas a lo que escribió. Si su nombre no aparece, el sistema le explica que todavía no tiene resultados en lugar de dejarlo con un error.</p>
+            </div>
+            <div class="l-en">
+              <p>The lecturer's name is the key between responses and user accounts, and students write it in many ways. I normalise accents, case and spacing, and on sign-up each lecturer gets suggestions similar to what they typed. If their name is not there, the system explains they have no results yet instead of leaving them with an error.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Acceso por rol, definido con la dirección</h3>
+            <h3 class="l-en">Role-based access, defined with the director</h3>
+            <div class="l-es">
+              <p>La directora ve toda la Escuela; un jefe de departamento, su departamento; un jefe de cátedra, su cátedra; y un profesor, solo su evaluación (con un selector si dicta varias asignaturas). Las jefaturas se marcan al registrarse pero las aprueba la dirección, y como no hay correo institucional, la directora restablece las contraseñas.</p>
+            </div>
+            <div class="l-en">
+              <p>The director sees the whole School; a department head, their department; a chair head, their chair; and a lecturer, only their own evaluation (with a selector if they teach several courses). Headships are claimed on sign-up but approved by the director, and since there is no institutional email, the director resets passwords.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Seguridad en la base de datos, no solo en la pantalla</h3>
+            <h3 class="l-en">Security in the database, not just the screen</h3>
+            <div class="l-es">
+              <p>Ocultar botones no basta. Las reglas viven en PostgreSQL: políticas de seguridad por fila, disparadores que impiden que alguien se asigne el rol de dirección o cambie su propia jefatura, e índices únicos que garantizan un solo jefe por departamento y por cátedra.</p>
+            </div>
+            <div class="l-en">
+              <p>Hiding buttons is not enough. The rules live in PostgreSQL: row-level security policies, triggers that stop anyone from granting themselves the director role or changing their own headship, and unique indexes that guarantee a single head per department and chair.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Informes listos para entregar</h3>
+            <h3 class="l-en">Reports ready to hand over</h3>
+            <div class="l-es">
+              <p>Cada docente y cada asignatura tienen un informe en PDF con sus índices por dimensión, para conversar sobre resultados sin abrir el dashboard. La fecha de la última respuesta recibida está siempre visible, para saber qué tan actuales son los datos.</p>
+            </div>
+            <div class="l-en">
+              <p>Each lecturer and each course has a PDF report with its indices per dimension, so results can be discussed without opening the dashboard. The date of the latest response received is always visible, so everyone knows how current the data is.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── Dashboard ────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">05</span><span class="l-es">Qué muestra la aplicación</span><span class="l-en">What the app shows</span></h2>
+        <div class="cs-grid2">
+          <div class="cs-card">
+            <h3 class="l-es">Resumen general</h3><h3 class="l-en">Overview</h3>
+            <p class="l-es">Evaluaciones recibidas, índices globales, demografía de los estudiantes y satisfacción por ciclo, con filtros por ciclo, departamento y cátedra.</p>
+            <p class="l-en">Evaluations received, overall indices, student demographics and satisfaction by cycle, with filters by cycle, department and chair.</p>
+          </div>
+          <div class="cs-card">
+            <h3 class="l-es">Asignaturas</h3><h3 class="l-en">Courses</h3>
+            <p class="l-es">Índices por dimensión de cada asignatura, ranking ponderado y reporte PDF por curso.</p>
+            <p class="l-en">Per-dimension indices for each course, weighted ranking and a PDF report per course.</p>
+          </div>
+          <div class="cs-card">
+            <h3 class="l-es">Docentes</h3><h3 class="l-en">Lecturers</h3>
+            <p class="l-es">Perfil de cada docente en un gráfico de radar, su vista detallada y su informe individual.</p>
+            <p class="l-en">Each lecturer's profile on a radar chart, their detailed view and their individual report.</p>
+          </div>
+          <div class="cs-card">
+            <h3 class="l-es">Administración</h3><h3 class="l-en">Administration</h3>
+            <p class="l-es">Panel de la dirección para aprobar jefaturas, gestionar cuentas y restablecer contraseñas.</p>
+            <p class="l-en">The director's panel to approve headships, manage accounts and reset passwords.</p>
+          </div>
+        </div>
+        <p class="cs-cta">
+          <a class="cs-button" href="https://evaluacion-curricular.vercel.app/" target="_blank" rel="noreferrer"><span class="l-es">Ver el sitio</span><span class="l-en">Visit the site</span> ↗</a>
+        </p>
+        <p class="cs-fine l-es">El acceso requiere una cuenta de la Escuela: los resultados de cada docente son confidenciales.</p>
+        <p class="cs-fine l-en">Access requires a School account: each lecturer's results are confidential.</p>
+      </section>
+
+      <!-- ── How it was built ─────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">06</span><span class="l-es">Cómo lo construí</span><span class="l-en">How I built it</span></h2>
+        <div class="cs-prose">
+          <div class="l-es">
+            <p>Escribí buena parte del código con agentes de IA. Mi trabajo estuvo en lo que ningún agente decide solo: traducir el instrumento a indicadores con sentido, diseñar las tablas y las transformaciones, acordar con la dirección quién puede ver qué y revisar que los índices calculados tuvieran sentido frente a las respuestas originales.</p>
+            <p>Conocer el instrumento desde dentro, como docente de la Escuela y de Psicometría, me ayudó a decidir cómo agrupar los ítems en dimensiones y cómo presentar los resultados para que un docente pueda leerlos sin ser estadístico.</p>
+          </div>
+          <div class="l-en">
+            <p>I wrote much of the code with AI coding agents. My work was in what no agent decides alone: turning the instrument into meaningful indicators, designing the tables and transformations, agreeing with the director on who can see what, and checking that the computed indices made sense against the original responses.</p>
+            <p>Knowing the instrument from the inside, as a lecturer at the School and in Psychometrics, helped me decide how to group items into dimensions and how to present results so a lecturer can read them without being a statistician.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Next ─────────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">07</span><span class="l-es">Qué haría a continuación</span><span class="l-en">What I would do next</span></h2>
+        <ul class="cs-list">
+          <li class="l-es">Un análisis psicométrico del propio instrumento: confiabilidad por dimensión y estructura factorial, para saber qué tan bien mide lo que dice medir.</li>
+          <li class="l-en">A psychometric analysis of the instrument itself: reliability per dimension and factor structure, to know how well it measures what it claims to.</li>
+          <li class="l-es">Comparaciones entre períodos académicos, para ver la evolución de cada asignatura y docente.</li>
+          <li class="l-en">Comparisons across academic terms, to follow how each course and lecturer evolves.</li>
+          <li class="l-es">Informes dibujados en vectores a partir de los datos, en lugar de capturas de pantalla, y más lógica del registro en funciones del servidor.</li>
+          <li class="l-en">Reports drawn as vectors from the data instead of screenshots, and more of the sign-up logic in server functions.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="cs-foot">
+      <div class="cs-wrap cs-foot-inner">
+        <span class="mono">Santiago Cárdenas</span>
+        <a class="mono" href="/#projects" target="_top"><span class="l-es">Volver al portafolio</span><span class="l-en">Back to portfolio</span> ↑</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/case/common/main.js"></script>
+  </body>
+</html>
