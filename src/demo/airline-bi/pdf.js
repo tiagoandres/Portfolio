@@ -4,12 +4,12 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const INK = '#1b1a17';
+const INK = '#232838';
 const MUTED = '#5c584f';
 const FAINT = '#8a857a';
-const RULE = '#d5cfc2';
-const GRID = '#e6e1d6';
-const ACCENT = '#b0401b';
+const RULE = '#e3e5ec';
+const GRID = '#eceef3';
+const ACCENT = '#6250d6';
 const GOOD = '#006300';
 const BAD = '#d03b3b';
 
@@ -53,7 +53,7 @@ class Report {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     ink(doc, INK);
-    doc.text('AIRLINE BI', PAGE.m, 14);
+    doc.text('DEMO AIR INSIGHTS', PAGE.m, 14);
     doc.setFont('helvetica', 'normal');
     ink(doc, FAINT);
     doc.text(clean(`${this.section}  ·  ${this.meta.period}  ·  ${this.meta.channel}`), PAGE.w - PAGE.m, 14, { align: 'right' });
@@ -87,10 +87,10 @@ class Report {
     const { doc, t, meta } = this;
     fill(doc, INK);
     doc.rect(0, 0, PAGE.w, 118, 'F');
-    ink(doc, '#f4f1ea');
+    ink(doc, '#ffffff');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
-    doc.text('AIRLINE BI  ·  DEMO', PAGE.m, 30);
+    doc.text('DEMO AIR INSIGHTS  ·  DEMO', PAGE.m, 30);
     doc.setFont('times', 'normal');
     doc.setFontSize(34);
     doc.text(clean(t('pdfTitle')), PAGE.m, 62);
@@ -252,14 +252,14 @@ class Report {
     const H = 58;
     this.ensure(H + 18);
     this.title(spec.title);
-    this.legend([{ name: spec.legend[0], color: '#8cb4e6' }, { name: spec.legend[1], color: '#eb6834', line: true }], this.y + 1);
+    this.legend([{ name: spec.legend[0], color: '#b1a8ef' }, { name: spec.legend[1], color: '#eb6834', line: true }], this.y + 1);
     this.y += 5;
     const x0 = PAGE.m + 16;
     const w = PAGE.w - PAGE.m - x0;
     const max = niceMax(Math.max(...spec.values, ...spec.line));
     this.axesY(x0, this.y, w, H, max, spec.fmt);
     const bw = w / spec.values.length;
-    fill(doc, '#8cb4e6');
+    fill(doc, '#b1a8ef');
     spec.values.forEach((v, i) => {
       const bh = (v / max) * H;
       doc.rect(x0 + i * bw + bw * 0.15, this.y + H - bh, bw * 0.7, bh, 'F');
@@ -309,7 +309,7 @@ class Report {
       const yy = this.y + i * row;
       ink(doc, MUTED);
       doc.text(clean(it.label), PAGE.m, yy + 3.9);
-      fill(doc, '#2a78d6');
+      fill(doc, '#6250d6');
       const bw = Math.max(0.6, (it.value / max) * w);
       doc.roundedRect(x0, yy + 0.9, bw, row - 2.2, 0.8, 0.8, 'F');
       ink(doc, INK);
@@ -375,14 +375,14 @@ class Report {
     let x = PAGE.m;
     spec.items.forEach((it) => {
       const sw = (it.value / total) * w;
-      fill(doc, it.color.startsWith('#') ? it.color : '#2a78d6');
+      fill(doc, it.color.startsWith('#') ? it.color : '#6250d6');
       doc.rect(x, this.y, Math.max(0, sw - 0.6), 6, 'F');
       x += sw;
     });
     this.y += 11;
     doc.setFontSize(8.5);
     spec.items.forEach((it) => {
-      fill(doc, it.color.startsWith('#') ? it.color : '#2a78d6');
+      fill(doc, it.color.startsWith('#') ? it.color : '#6250d6');
       doc.rect(PAGE.m, this.y - 2.6, 2.8, 2.8, 'F');
       ink(doc, INK);
       doc.text(clean(it.label), PAGE.m + 5, this.y);
@@ -436,8 +436,8 @@ class Report {
       margin: { left: PAGE.m, right: PAGE.m, top: CONTENT_TOP, bottom: PAGE.h - CONTENT_BOTTOM },
       theme: 'plain',
       styles: { font: 'helvetica', fontSize: 8, cellPadding: { top: 1.6, bottom: 1.6, left: 2, right: 2 }, textColor: rgb(INK) },
-      headStyles: { fillColor: rgb(INK), textColor: rgb('#f4f1ea'), fontStyle: 'bold', fontSize: 7.5 },
-      alternateRowStyles: { fillColor: rgb('#f1ede5') },
+      headStyles: { fillColor: rgb(INK), textColor: rgb('#ffffff'), fontStyle: 'bold', fontSize: 7.5 },
+      alternateRowStyles: { fillColor: rgb('#f4f5f8') },
       columnStyles,
       didDrawPage: (data) => {
         if (data.pageNumber > 1 || self.doc.getNumberOfPages() > 1) self.header();

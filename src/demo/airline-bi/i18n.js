@@ -1,6 +1,9 @@
 export const STRINGS = {
   ES: {
-    back: 'Portafolio',
+    back: 'Volver al portafolio',
+    liveBi: 'Business Intelligence en vivo · datos sintéticos',
+    live: 'En vivo',
+    footNote: 'Aerolínea ficticia. Datos sintéticos generados con semilla fija; ningún dato es real.',
     product: 'Airline BI',
     demo: 'Demo',
     synthetic: 'Datos sintéticos',
@@ -130,7 +133,10 @@ export const STRINGS = {
     value: 'Valor',
   },
   EN: {
-    back: 'Portfolio',
+    back: 'Back to portfolio',
+    liveBi: 'Live business intelligence · synthetic data',
+    live: 'Live',
+    footNote: 'Fictional airline. Synthetic data generated from a fixed seed; nothing here is real.',
     product: 'Airline BI',
     demo: 'Demo',
     synthetic: 'Synthetic data',

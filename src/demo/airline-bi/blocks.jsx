@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  CircleDollarSign, Ticket, Receipt, Gauge, Route as RouteIcon, PlaneTakeoff, ArrowLeftRight,
+  Users, UsersRound, UserCheck, Coins, Flame, Percent, BadgeCheck,
+} from 'lucide-react';
 import { ROUTES } from './data.js';
 import { delta } from './metrics.js';
 import {
@@ -8,8 +12,8 @@ import {
 
 // Sequential / ordinal ramp (one hue, light → dark). Ordinal starts at a step
 // that still clears 2:1 against the surface.
-export const SEQ_RAMP = ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95', '#0d366b'];
-export const ORDINAL_RAMP = ['#86b6ef', '#5598e7', '#3987e5', '#2a78d6', '#1c5cab', '#104281'];
+export const SEQ_RAMP = ['#ebe8fc', '#d3cdf7', '#b1a8ef', '#8f82e4', '#6250d6', '#4a3aa7', '#33287a'];
+export const ORDINAL_RAMP = ['#86b6ef', '#5598e7', '#3987e5', '#6250d6', '#1c5cab', '#104281'];
 const STATUS = { issued: '#0ca30c', pending: '#fab219', cancelled: '#d03b3b' };
 const STATUS_ICON = { issued: '✓', pending: '…', cancelled: '✕' };
 
@@ -43,7 +47,7 @@ export function buildBlocks(m, t, f, channel) {
   const pk = m.prevKpis;
   const vs = t('vsPrev');
   const series = { web: 'var(--series-1)', app: 'var(--series-2)', agency: 'var(--series-3)' };
-  const seriesHex = { web: '#2a78d6', app: '#eb6834', agency: '#1baf7a' };
+  const seriesHex = { web: '#6250d6', app: '#eb6834', agency: '#1baf7a' };
 
   const kpiBlock = (id, tab, title, tiles) => ({
     id, tab, title, kind: 'kpis', span: 'full',
@@ -53,11 +57,11 @@ export function buildBlocks(m, t, f, channel) {
 
   const statusItems = m.statusCounts.map((s) => ({ key: s.key, label: t(s.key), value: s.value, color: STATUS[s.key], icon: STATUS_ICON[s.key] }));
   const genderItems = [
-    { key: 'F', label: t('female'), value: m.gender[0].value, color: 'var(--series-1)', hex: '#2a78d6' },
+    { key: 'F', label: t('female'), value: m.gender[0].value, color: 'var(--series-1)', hex: '#6250d6' },
     { key: 'M', label: t('male'), value: m.gender[1].value, color: 'var(--series-2)', hex: '#eb6834' },
   ];
   const connItems = [
-    { key: 'd', label: t('direct'), value: k.directPax, color: 'var(--series-1)', hex: '#2a78d6' },
+    { key: 'd', label: t('direct'), value: k.directPax, color: 'var(--series-1)', hex: '#6250d6' },
     { key: 'c', label: t('connecting'), value: k.connectingPax, color: 'var(--series-2)', hex: '#eb6834' },
   ];
   const payTotal = m.payRevenue.reduce((a, x) => a + x.value, 0) || 1;
@@ -72,10 +76,10 @@ export function buildBlocks(m, t, f, channel) {
   return [
     // ── Overview ──
     kpiBlock('kpi-overview', 'overview', t('tabOverview'), [
-      { label: t('kRevenue'), value: f.money(k.revenue), delta: delta(k.revenue, pk.revenue), hint: vs },
-      { label: t('kTickets'), value: f.int(k.tickets), delta: delta(k.tickets, pk.tickets), hint: vs },
-      { label: t('kAvgTicket'), value: f.money(k.avgTicket), delta: delta(k.avgTicket, pk.avgTicket), hint: vs },
-      { label: t('kConversion'), value: f.pct(k.conversion), delta: delta(k.conversion, pk.conversion), hint: t('kConversionHint') },
+      { icon: <CircleDollarSign size={16} />, label: t('kRevenue'), value: f.money(k.revenue), delta: delta(k.revenue, pk.revenue), hint: vs },
+      { icon: <Ticket size={16} />, label: t('kTickets'), value: f.int(k.tickets), delta: delta(k.tickets, pk.tickets), hint: vs },
+      { icon: <Receipt size={16} />, label: t('kAvgTicket'), value: f.money(k.avgTicket), delta: delta(k.avgTicket, pk.avgTicket), hint: vs },
+      { icon: <Gauge size={16} />, label: t('kConversion'), value: f.pct(k.conversion), delta: delta(k.conversion, pk.conversion), hint: t('kConversionHint') },
     ]),
     {
       id: 'revenue-daily', tab: 'overview', title: t('cRevenueDaily'), span: 'full',
@@ -140,9 +144,9 @@ export function buildBlocks(m, t, f, channel) {
 
     // ── Routes ──
     kpiBlock('kpi-routes', 'routes', t('tabRoutes'), [
-      { label: t('kRoutes'), value: f.int(k.routesActive), hint: `${ROUTES.length} ${t('route').toLowerCase()}s` },
-      { label: t('kDirect'), value: f.int(k.directPax), hint: f.pct((k.directPax / Math.max(1, k.tickets)) * 100) },
-      { label: t('kConnecting'), value: f.int(k.connectingPax), hint: f.pct((k.connectingPax / Math.max(1, k.tickets)) * 100) },
+      { icon: <RouteIcon size={16} />, label: t('kRoutes'), value: f.int(k.routesActive), hint: `${ROUTES.length} ${t('route').toLowerCase()}s` },
+      { icon: <PlaneTakeoff size={16} />, label: t('kDirect'), value: f.int(k.directPax), hint: f.pct((k.directPax / Math.max(1, k.tickets)) * 100) },
+      { icon: <ArrowLeftRight size={16} />, label: t('kConnecting'), value: f.int(k.connectingPax), hint: f.pct((k.connectingPax / Math.max(1, k.tickets)) * 100) },
     ]),
     {
       id: 'top-routes', tab: 'routes', title: t('cTopRoutes'), span: 'full',
@@ -194,10 +198,10 @@ export function buildBlocks(m, t, f, channel) {
 
     // ── Passengers ──
     kpiBlock('kpi-pax', 'pax', t('tabPax'), [
-      { label: t('kPax'), value: f.int(k.paxTotal), delta: delta(k.tickets, pk.tickets), hint: vs },
-      { label: t('kParty'), value: f.one(k.avgParty), hint: t('kParty_hint') },
-      { label: t('kAvgTicket'), value: f.money(k.avgTicket), delta: delta(k.avgTicket, pk.avgTicket), hint: vs },
-      { label: t('kCustomers'), value: f.int(k.uniqueCustomers) },
+      { icon: <Users size={16} />, label: t('kPax'), value: f.int(k.paxTotal), delta: delta(k.tickets, pk.tickets), hint: vs },
+      { icon: <UsersRound size={16} />, label: t('kParty'), value: f.one(k.avgParty), hint: t('kParty_hint') },
+      { icon: <Receipt size={16} />, label: t('kAvgTicket'), value: f.money(k.avgTicket), delta: delta(k.avgTicket, pk.avgTicket), hint: vs },
+      { icon: <UserCheck size={16} />, label: t('kCustomers'), value: f.int(k.uniqueCustomers) },
     ]),
     {
       id: 'age', tab: 'pax', title: t('cAge'), span: 'wide',
@@ -208,7 +212,7 @@ export function buildBlocks(m, t, f, channel) {
             series={[{ key: 'F', name: t('female'), color: 'var(--series-1)' }, { key: 'M', name: t('male'), color: 'var(--series-2)' }]} />
         </Panel>
       ),
-      pdf: { type: 'grouped', title: t('cAge'), labels: ageData.map((x) => x.key), series: [{ name: t('female'), color: '#2a78d6', values: ageData.map((x) => x.F) }, { name: t('male'), color: '#eb6834', values: ageData.map((x) => x.M) }], fmt: f.compact },
+      pdf: { type: 'grouped', title: t('cAge'), labels: ageData.map((x) => x.key), series: [{ name: t('female'), color: '#6250d6', values: ageData.map((x) => x.F) }, { name: t('male'), color: '#eb6834', values: ageData.map((x) => x.M) }], fmt: f.compact },
     },
     {
       id: 'gender', tab: 'pax', title: t('cGender'), span: 'narrow',
@@ -241,10 +245,10 @@ export function buildBlocks(m, t, f, channel) {
 
     // ── Loyalty ──
     kpiBlock('kpi-loyalty', 'loyalty', t('tabLoyalty'), [
-      { label: t('kAwarded'), value: f.int(k.awarded), delta: delta(k.awarded, pk.awarded), hint: vs },
-      { label: t('kRedeemed'), value: f.int(k.redeemed), delta: delta(k.redeemed, pk.redeemed), hint: vs },
-      { label: t('kRedemptionRatio'), value: f.pct(redemptionRatio) },
-      { label: t('kEnrolled'), value: f.int(k.enrolled), hint: t('kEnrolledHint') },
+      { icon: <Coins size={16} />, label: t('kAwarded'), value: f.int(k.awarded), delta: delta(k.awarded, pk.awarded), hint: vs },
+      { icon: <Flame size={16} />, label: t('kRedeemed'), value: f.int(k.redeemed), delta: delta(k.redeemed, pk.redeemed), hint: vs },
+      { icon: <Percent size={16} />, label: t('kRedemptionRatio'), value: f.pct(redemptionRatio) },
+      { icon: <BadgeCheck size={16} />, label: t('kEnrolled'), value: f.int(k.enrolled), hint: t('kEnrolledHint') },
     ]),
     {
       id: 'miles', tab: 'loyalty', title: t('cMiles'), span: 'full',
@@ -255,7 +259,7 @@ export function buildBlocks(m, t, f, channel) {
             series={[{ key: 'awarded', name: t('awarded'), color: 'var(--series-1)' }, { key: 'redeemed', name: t('redeemed'), color: 'var(--series-2)' }]} />
         </Panel>
       ),
-      pdf: { type: 'lines', title: t('cMiles'), labels: m.byDay.map((d) => f.day(d.day)), fmt: f.compact, series: [{ name: t('awarded'), color: '#2a78d6', values: m.byDay.map((d) => d.awarded) }, { name: t('redeemed'), color: '#eb6834', values: m.byDay.map((d) => d.redeemed) }] },
+      pdf: { type: 'lines', title: t('cMiles'), labels: m.byDay.map((d) => f.day(d.day)), fmt: f.compact, series: [{ name: t('awarded'), color: '#6250d6', values: m.byDay.map((d) => d.awarded) }, { name: t('redeemed'), color: '#eb6834', values: m.byDay.map((d) => d.redeemed) }] },
     },
     {
       id: 'tiers', tab: 'loyalty', title: t('cTiers'), span: 'half',
@@ -274,7 +278,7 @@ export function buildBlocks(m, t, f, channel) {
             series={[{ key: 'value', name: t('affiliates'), color: 'var(--series-1)' }]} />
         </Panel>
       ),
-      pdf: { type: 'lines', title: t('cRegistrations'), labels: m.regByDay.map((d) => f.day(d.day)), fmt: f.compact, series: [{ name: t('affiliates'), color: '#2a78d6', values: m.regByDay.map((d) => d.value) }] },
+      pdf: { type: 'lines', title: t('cRegistrations'), labels: m.regByDay.map((d) => f.day(d.day)), fmt: f.compact, series: [{ name: t('affiliates'), color: '#6250d6', values: m.regByDay.map((d) => d.value) }] },
     },
   ];
 }

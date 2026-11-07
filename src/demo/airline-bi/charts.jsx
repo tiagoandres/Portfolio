@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArrowUpRight, ArrowDownRight, Table2, BarChart3 } from 'lucide-react';
 import {
   ResponsiveContainer, ComposedChart, BarChart, LineChart, Bar, Line, XAxis, YAxis,
   CartesianGrid, Tooltip, Legend, LabelList,
@@ -52,7 +53,8 @@ export function Panel({ title, sub, children, table, className = '', note, t }) 
         </div>
         {table && (
           <button className="panel-toggle" onClick={() => setShowTable((s) => !s)} aria-pressed={showTable}>
-            {showTable ? t('chart') : t('table')}
+            {showTable ? <BarChart3 size={14} /> : <Table2 size={14} />}
+            <span>{showTable ? t('chart') : t('table')}</span>
           </button>
         )}
       </header>
@@ -80,22 +82,26 @@ export function DataTable({ head, rows, align = [] }) {
 }
 
 // ── KPI tile ──────────────────────────────────────────────────────────
-export function KpiTile({ label, value, delta, hint, fmtDelta, goodWhenUp = true }) {
+export function KpiTile({ label, value, delta, hint, icon, fmtDelta, goodWhenUp = true }) {
   const has = delta !== null && delta !== undefined && Number.isFinite(delta);
   const up = has && delta >= 0;
   const good = has && (up === goodWhenUp);
   return (
     <div className="kpi">
-      <p className="kpi-label">{label}</p>
-      <p className="kpi-value">{value}</p>
-      <p className="kpi-foot">
-        {has && (
-          <span className={`kpi-delta ${good ? 'is-good' : 'is-bad'}`}>
-            <span aria-hidden="true">{up ? '▲' : '▼'}</span> {fmtDelta(Math.abs(delta))}
-          </span>
-        )}
-        {hint && <span className="kpi-hint">{hint}</span>}
-      </p>
+      <div className="kpi-main">
+        <p className="kpi-label">{label}</p>
+        <p className="kpi-value">{value}</p>
+        <p className="kpi-foot">
+          {has && (
+            <span className={`kpi-delta ${good ? 'is-good' : 'is-bad'}`}>
+              {up ? <ArrowUpRight size={13} strokeWidth={2.5} /> : <ArrowDownRight size={13} strokeWidth={2.5} />}
+              {fmtDelta(Math.abs(delta))}
+            </span>
+          )}
+          {hint && <span className="kpi-hint">{hint}</span>}
+        </p>
+      </div>
+      {icon && <span className="kpi-icon" aria-hidden="true">{icon}</span>}
     </div>
   );
 }
@@ -242,7 +248,7 @@ export function Heatmap({ rows, cols, matrix, ramp, fmtValue, unit }) {
               const bg = step(v);
               const dark = ramp.indexOf(bg) >= Math.ceil(ramp.length / 2);
               return (
-                <span key={j} className="heat-cell" style={{ background: bg, color: dark ? '#fff' : 'var(--viz-primary)' }}
+                <span key={j} className="heat-cell" style={{ background: bg, color: dark ? '#fff' : '#232838' }}
                   title={`${r} · ${cols[j]}: ${fmtValue(v)} ${unit}`}>
                   {fmtValue(v)}
                 </span>

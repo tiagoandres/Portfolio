@@ -1,4 +1,8 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import {
+  Plane, Database, Sun, Moon, X, Info, CalendarDays, LayoutGrid, Route as RouteIcon, UserCircle2,
+  Coins, Sparkles, Building2, Download, CheckCircle2,
+} from 'lucide-react';
 import { generateDataset, isoDay } from './data.js';
 import { compute } from './metrics.js';
 import { buildBlocks, makeFormatters } from './blocks.jsx';
@@ -43,7 +47,7 @@ function SyncDialog({ t, f, ds, onClose }) {
       <div className="dialog" role="dialog" aria-modal="true" aria-label={t('syncTitle')} onClick={(e) => e.stopPropagation()}>
         <div className="dialog-head">
           <h2 className="dialog-title">{t('syncTitle')}</h2>
-          <button className="btn-text" onClick={onClose} autoFocus>{t('close')} ✕</button>
+          <button className="icon-btn plain" onClick={onClose} autoFocus aria-label={t('close')}><X size={16} /></button>
         </div>
         <p className="dialog-note">{t('syncNote')}</p>
         <table className="data-table">
@@ -56,7 +60,7 @@ function SyncDialog({ t, f, ds, onClose }) {
                 <td className="mono">{name}</td>
                 <td className="num">{f.int(n)}</td>
                 <td className="muted">{new Date(now - (i * 7 + 12) * 1000).toLocaleTimeString()}</td>
-                <td><span className="status-pill"><span aria-hidden="true">✓</span> {t('idle')}</span></td>
+                <td><span className="status-pill"><CheckCircle2 size={12} /> {t('idle')}</span></td>
               </tr>
             ))}
           </tbody>
@@ -94,9 +98,9 @@ function CustomView({ blocks, t, meta, lang }) {
       <aside className="custom-side">
         <p className="custom-intro">{t('customIntro')}</p>
         <button className="btn-solid" onClick={exportPdf} disabled={!chosen.length || busy}>
-          {busy ? t('exporting') : t('exportPdf')} <span aria-hidden="true">↓</span>
+          <Download size={16} /> {busy ? t('exporting') : t('exportPdf')}
         </button>
-        <p className="custom-meta mono">{chosen.length} / {selectable.length}</p>
+        <p className="custom-meta">{chosen.length} / {selectable.length}</p>
         <div className="custom-actions">
           <button className="btn-text" onClick={() => setPicked(selectable.map((b) => b.id))}>{t('selectAll')}</button>
           <button className="btn-text" onClick={() => setPicked([])}>{t('selectNone')}</button>
@@ -186,71 +190,88 @@ export default function App() {
     to: range.to,
   };
 
+  const framed = window.self !== window.top;
+  const TAB_ICON = { overview: LayoutGrid, routes: RouteIcon, pax: UserCircle2, loyalty: Coins, custom: Sparkles };
+
   return (
     <div className="app">
-      <header className="topbar">
-        <div className="topbar-inner">
-          <a className="back mono" href="/#projects">← {t('back')}</a>
+      <header className="appbar">
+        <div className="appbar-inner">
           <div className="brand">
-            <span className="brand-mark" aria-hidden="true">✈</span>
-            <span className="brand-name">{t('product')}</span>
-            <span className="tag mono">{t('demo')} · {t('synthetic')}</span>
+            <span className="brand-mark" aria-hidden="true"><Plane size={18} /></span>
+            <div className="brand-text">
+              <p className="brand-name">DEMO AIR <span>Insights</span></p>
+              <p className="brand-sub">{t('liveBi')}</p>
+            </div>
           </div>
-          <div className="topbar-actions">
-            <button className="btn-text" onClick={() => setSyncOpen(true)}>
-              <span className="live-dot" aria-hidden="true" /> {t('sync')}
+          <div className="appbar-actions">
+            <span className="live-pill"><span className="live-dot" aria-hidden="true" />{t('live')}</span>
+            <button className="icon-btn" onClick={() => setSyncOpen(true)} title={t('sync')} aria-label={t('sync')}>
+              <Database size={16} />
             </button>
-            <button className="btn-text mono" onClick={() => setLang(lang === 'ES' ? 'EN' : 'ES')} aria-label="Language">
+            <button className="icon-btn lang" onClick={() => setLang(lang === 'ES' ? 'EN' : 'ES')} aria-label="Language">
               {lang === 'ES' ? 'EN' : 'ES'}
             </button>
-            <button className="btn-text" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              aria-label={theme === 'dark' ? t('themeLight') : t('themeDark')}>
-              {theme === 'dark' ? '☀' : '☾'}
+            <button className="icon-btn" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              aria-label={theme === 'dark' ? t('themeLight') : t('themeDark')} title={theme === 'dark' ? t('themeLight') : t('themeDark')}>
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
+            {!framed && (
+              <a className="icon-btn back" href="/#projects" title={t('back')} aria-label={t('back')}>
+                <X size={16} />
+              </a>
+            )}
           </div>
         </div>
       </header>
 
       <main className="page">
         <div className="notice">
+          <Info size={16} className="notice-icon" aria-hidden="true" />
           <p>{t('banner')}</p>
-          <a className="text-link" href="/casos/airline-bi/">{t('caseStudy')} <span aria-hidden="true">→</span></a>
+          {!framed && <a className="notice-link" href="/casos/airline-bi/">{t('caseStudy')} →</a>}
         </div>
 
-        <section className="filters" aria-label="Filters">
+        <section className="filterbar" aria-label="Filters">
           <div className="filter-group">
-            <span className="filter-label mono">{t('channel')}</span>
-            <div className="seg" role="group">
+            <span className="filter-label"><Database size={15} />{t('channel')}</span>
+            <div className="pills" role="group">
               {['all', 'web', 'app', 'agency'].map((c) => (
                 <button key={c} className={channel === c ? 'on' : ''} aria-pressed={channel === c} onClick={() => setChannel(c)}>{t(c)}</button>
               ))}
             </div>
           </div>
           <div className="filter-group">
-            <span className="filter-label mono">{t('period')}</span>
-            <div className="seg" role="group">
+            <span className="filter-label"><CalendarDays size={15} />{t('period')}</span>
+            <div className="pills" role="group">
               {PRESETS.map((p) => (
                 <button key={p} className={preset === p ? 'on' : ''} aria-pressed={preset === p} onClick={() => applyPreset(p)}>{t(p)}</button>
               ))}
             </div>
-            <label className="date">
-              <span className="sr-only">{t('from')}</span>
-              <input type="date" value={range.from} min={ds.start} max={ds.end} onChange={(e) => setFrom(e.target.value)} />
-            </label>
-            <span className="muted">–</span>
-            <label className="date">
-              <span className="sr-only">{t('to')}</span>
-              <input type="date" value={range.to} min={ds.start} max={ds.end} onChange={(e) => setTo(e.target.value)} />
-            </label>
+            <div className="dates">
+              <label className="date">
+                <span className="sr-only">{t('from')}</span>
+                <input type="date" value={range.from} min={ds.start} max={ds.end} onChange={(e) => setFrom(e.target.value)} />
+              </label>
+              <span className="muted">→</span>
+              <label className="date">
+                <span className="sr-only">{t('to')}</span>
+                <input type="date" value={range.to} min={ds.start} max={ds.end} onChange={(e) => setTo(e.target.value)} />
+              </label>
+            </div>
           </div>
         </section>
 
         <nav className="tabs" role="tablist">
-          {TABS.map((x) => (
-            <button key={x} role="tab" aria-selected={tab === x} className={tab === x ? 'on' : ''} onClick={() => setTab(x)}>
-              {t(TAB_KEY[x])}
-            </button>
-          ))}
+          {TABS.map((x) => {
+            const Icon = TAB_ICON[x];
+            return (
+              <button key={x} role="tab" aria-selected={tab === x} className={tab === x ? 'on' : ''} onClick={() => setTab(x)}>
+                <Icon size={16} />
+                <span>{t(TAB_KEY[x])}</span>
+              </button>
+            );
+          })}
         </nav>
 
         {tab === 'custom' ? (
@@ -262,12 +283,9 @@ export default function App() {
             ))}
           </div>
         )}
-      </main>
 
-      <footer className="foot">
-        <span className="mono muted">Airline BI · {t('demo')} — Santiago Cárdenas</span>
-        <span className="mono muted">React · Recharts · jsPDF</span>
-      </footer>
+        <p className="page-foot"><Building2 size={13} /> {t('footNote')}</p>
+      </main>
 
       {syncOpen && <SyncDialog t={t} f={f} ds={ds} onClose={() => setSyncOpen(false)} />}
     </div>

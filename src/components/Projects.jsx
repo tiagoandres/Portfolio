@@ -14,8 +14,7 @@ const Projects = () => {
             description: t('proj5_desc'),
             tech: ["MongoDB", "PostgreSQL", "SQL", "ETL", "React", "TypeScript", "jsPDF"],
             iframes: ["/casos/airline-bi/"],
-            link: "/demo/airline-bi/",
-            linkLabel: 'proj_btn_demo',
+            demo: "/demo/airline-bi/",
             summaryLabel: 'proj_btn_case'
         },
         {
@@ -73,13 +72,22 @@ const Projects = () => {
                                     <p className="project-tech meta">{project.tech.join(' · ')}</p>
                                 </div>
                                 <div className="project-links">
-                                    {project.link ? (
+                                    {project.demo ? (
+                                        <>
+                                            <button className="text-link" onClick={() => setSelectedProject({ ...project, iframes: [project.demo] })}>
+                                                {t('proj_btn_demo')} <span className="arrow" aria-hidden="true">→</span>
+                                            </button>
+                                            <button className="text-link" onClick={() => setSelectedProject(project)}>
+                                                {t(project.summaryLabel)}
+                                            </button>
+                                        </>
+                                    ) : project.link ? (
                                         <>
                                             <a href={project.link} className="text-link" target="_blank" rel="noreferrer">
-                                                {t(project.linkLabel || 'proj_btn_project')} <span className="arrow" aria-hidden="true">↗</span>
+                                                {t('proj_btn_project')} <span className="arrow" aria-hidden="true">↗</span>
                                             </a>
                                             <button className="text-link" onClick={() => setSelectedProject(project)}>
-                                                {t(project.summaryLabel || 'proj_btn_summary')}
+                                                {t('proj_btn_summary')}
                                             </button>
                                         </>
                                     ) : (
