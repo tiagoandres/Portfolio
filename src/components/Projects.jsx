@@ -9,6 +9,16 @@ const Projects = () => {
 
     const projects = [
         {
+            id: 5,
+            title: t('proj5_title'),
+            description: t('proj5_desc'),
+            tech: ["MongoDB", "PostgreSQL", "SQL", "ETL", "React", "TypeScript", "jsPDF"],
+            iframes: ["/casos/airline-bi/"],
+            link: "/demo/airline-bi/",
+            linkLabel: 'proj_btn_demo',
+            summaryLabel: 'proj_btn_case'
+        },
+        {
             id: 4,
             title: t('proj4_title'),
             description: t('proj4_desc'),
@@ -66,10 +76,10 @@ const Projects = () => {
                                     {project.link ? (
                                         <>
                                             <a href={project.link} className="text-link" target="_blank" rel="noreferrer">
-                                                {t('proj_btn_project')} <span className="arrow" aria-hidden="true">↗</span>
+                                                {t(project.linkLabel || 'proj_btn_project')} <span className="arrow" aria-hidden="true">↗</span>
                                             </a>
                                             <button className="text-link" onClick={() => setSelectedProject(project)}>
-                                                {t('proj_btn_summary')}
+                                                {t(project.summaryLabel || 'proj_btn_summary')}
                                             </button>
                                         </>
                                     ) : (

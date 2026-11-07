@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Caso de estudio: plataforma de BI para aerolíneas, de MongoDB a PostgreSQL y dashboards con reportes PDF. Santiago Cárdenas." />
+    <title>Caso de estudio · Airline BI — Santiago Cárdenas</title>
+    <script>
+      try {
+        var t = localStorage.getItem('portfolio_theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('portfolio_lang') === 'EN' ? 'en' : 'es';
+        document.documentElement.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <header class="cs-top">
+      <div class="cs-wrap cs-top-inner">
+        <a class="cs-back mono" href="/#projects" target="_top"><span class="l-es">← Portafolio</span><span class="l-en">← Portfolio</span></a>
+        <div class="cs-top-actions">
+          <a class="cs-link" href="/demo/airline-bi/" target="_top"><span class="l-es">Abrir la demo</span><span class="l-en">Open the demo</span> ↗</a>
+          <button class="cs-btn mono" id="lang-toggle" type="button" aria-label="Language"><span class="l-es">EN</span><span class="l-en">ES</span></button>
+          <button class="cs-btn" id="theme-toggle" type="button" aria-label="Theme">◐</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="cs-wrap">
+      <!-- ── Hero ─────────────────────────────────────── -->
+      <section class="cs-hero">
+        <p class="cs-eyebrow mono"><span class="l-es">Caso de estudio · Inteligencia de negocio</span><span class="l-en">Case study · Business intelligence</span></p>
+        <h1 class="cs-title">
+          <span class="l-es">Una plataforma de BI para aerolíneas: de la base transaccional a <em>decisiones diarias</em></span>
+          <span class="l-en">A BI platform for airlines: from the transactional database to <em>daily decisions</em></span>
+        </h1>
+        <p class="cs-lede">
+          <span class="l-es">Diseñé y construí un pipeline de datos y un dashboard analítico que hoy usan tres aerolíneas venezolanas dentro de sus backoffices. Lo que empezó como un proyecto para un cliente terminó siendo una plantilla reutilizable.</span>
+          <span class="l-en">I designed and built a data pipeline and an analytics dashboard that three Venezuelan airlines now use inside their back offices. What started as a single-client project became a reusable template.</span>
+        </p>
+
+        <dl class="cs-facts">
+          <div><dt class="mono"><span class="l-es">Rol</span><span class="l-en">Role</span></dt><dd><span class="l-es">Diseño y desarrollo de punta a punta, en solitario</span><span class="l-en">End-to-end design and development, solo</span></dd></div>
+          <div><dt class="mono"><span class="l-es">Clientes</span><span class="l-en">Clients</span></dt><dd><span class="l-es">3 aerolíneas (anónimas por confidencialidad)</span><span class="l-en">3 airlines (anonymous for confidentiality)</span></dd></div>
+          <div><dt class="mono"><span class="l-es">Período</span><span class="l-en">Timeline</span></dt><dd><span class="l-es">Mayo – septiembre de 2026</span><span class="l-en">May – September 2026</span></dd></div>
+          <div><dt class="mono">Stack</dt><dd>MongoDB · PostgreSQL (Supabase) · SQL · TypeScript · React · TanStack Start · Recharts · jsPDF</dd></div>
+        </dl>
+      </section>
+
+      <!-- ── Summary ──────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">01</span><span class="l-es">En corto</span><span class="l-en">In short</span></h2>
+        <ul class="cs-summary">
+          <li>
+            <strong>3</strong>
+            <span class="l-es">aerolíneas con el dashboard en producción, integrado por iframe en sus backoffices.</span>
+            <span class="l-en">airlines running the dashboard in production, embedded in their back offices.</span>
+          </li>
+          <li>
+            <strong>5</strong>
+            <span class="l-es">colecciones de MongoDB replicadas de forma incremental a PostgreSQL, sin tocar la base de producción con consultas analíticas.</span>
+            <span class="l-en">MongoDB collections replicated incrementally to PostgreSQL, keeping analytical queries off the production database.</span>
+          </li>
+          <li>
+            <strong>~1 sem.</strong>
+            <span class="l-es">para cada despliegue después del primero (según el historial de cambios), gracias a una arquitectura parametrizable.</span>
+            <span class="l-en">for each deployment after the first one (per the change history), thanks to a parameterised architecture.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── Problem ──────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">02</span><span class="l-es">El problema</span><span class="l-en">The problem</span></h2>
+        <div class="cs-prose">
+          <div class="l-es">
+            <p>Los sistemas de venta de las aerolíneas guardan reservas, órdenes, pasajeros y rutas en MongoDB. Es una base pensada para operar (emitir un boleto, registrar un pago), no para responder preguntas como «¿qué rutas crecieron este mes?» o «¿con cuánta anticipación compran los pasajeros internacionales?».</p>
+            <p>Los equipos comerciales dependían de exportaciones manuales y de consultas puntuales sobre la base de producción, que además eran lentas porque cada reserva es un documento grande con pasajeros, segmentos, boletos y pagos anidados.</p>
+            <p>Necesitaban tres cosas: ver el negocio a diario sin pedir reportes, armar sus propias vistas y llevar esas vistas a un PDF presentable para la gerencia.</p>
+          </div>
+          <div class="l-en">
+            <p>The airlines' sales systems store bookings, orders, passengers and routes in MongoDB. It is a database built to operate (issue a ticket, record a payment), not to answer questions such as "which routes grew this month?" or "how far ahead do international passengers book?".</p>
+            <p>Commercial teams relied on manual exports and ad-hoc queries against the production database, which were also slow because every booking is a large document with nested passengers, segments, tickets and payments.</p>
+            <p>They needed three things: see the business daily without requesting reports, build their own views, and turn those views into a presentable PDF for management.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Architecture ─────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">03</span><span class="l-es">La solución</span><span class="l-en">The solution</span></h2>
+        <div class="cs-prose">
+          <p class="l-es">Separé la operación del análisis: un proceso programado copia los cambios de MongoDB a PostgreSQL, una capa en SQL precalcula las métricas y el dashboard solo lee de ahí.</p>
+          <p class="l-en">I separated operations from analytics: a scheduled job copies changes from MongoDB to PostgreSQL, a SQL layer precomputes the metrics, and the dashboard only reads from there.</p>
+        </div>
+
+        <ol class="pipe" aria-label="Pipeline">
+          <li class="pipe-step">
+            <span class="pipe-n mono">1</span>
+            <h3>MongoDB</h3>
+            <p class="l-es">Base transaccional del sistema de ventas: reservas, órdenes, usuarios, rutas, aeropuertos.</p>
+            <p class="l-en">The sales system's transactional database: bookings, orders, users, routes, airports.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">2</span>
+            <h3><span class="l-es">Sincronización incremental</span><span class="l-en">Incremental sync</span></h3>
+            <p class="l-es">Función programada que lee por lotes desde el último cursor guardado y hace <code>upsert</code>.</p>
+            <p class="l-en">Scheduled function that reads in batches from the last saved cursor and upserts.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">3</span>
+            <h3>PostgreSQL</h3>
+            <p class="l-es">Tablas espejo con columnas tipadas y el documento original en <code>jsonb</code>.</p>
+            <p class="l-en">Mirror tables with typed columns plus the original document as <code>jsonb</code>.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">4</span>
+            <h3><span class="l-es">Capa analítica SQL</span><span class="l-en">SQL analytics layer</span></h3>
+            <p class="l-es">Funciones, tabla de hechos e índices: KPIs, período previo, pirámides, rankings.</p>
+            <p class="l-en">Functions, a fact table and indexes: KPIs, previous period, pyramids, rankings.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">5</span>
+            <h3>Dashboard</h3>
+            <p class="l-es">React con funciones de servidor; filtros por período y canal; vista personalizada.</p>
+            <p class="l-en">React with server functions; period and channel filters; custom view.</p>
+          </li>
+          <li class="pipe-step">
+            <span class="pipe-n mono">6</span>
+            <h3><span class="l-es">Reporte PDF</span><span class="l-en">PDF report</span></h3>
+            <p class="l-es">Dibujado con los mismos datos que el dashboard, en vectores.</p>
+            <p class="l-en">Drawn from the same data as the dashboard, as vectors.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ── Decisions ────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">04</span><span class="l-es">Decisiones técnicas</span><span class="l-en">Technical decisions</span></h2>
+
+        <div class="cs-decisions">
+          <article class="dec">
+            <h3 class="l-es">Un cursor doble para no perder ni repetir documentos</h3>
+            <h3 class="l-en">A two-mode cursor so no document is lost or repeated</h3>
+            <div class="l-es">
+              <p>La primera carga avanza por <code>_id</code>; después, por <code>updatedAt</code> y <code>_id</code> como desempate, con un minuto de solapamiento para absorber relojes desfasados. El estado de cada colección (cursor, documentos procesados, último error) vive en una tabla propia, así que una corrida fallida retoma donde quedó.</p>
+            </div>
+            <div class="l-en">
+              <p>The first load walks by <code>_id</code>; afterwards, by <code>updatedAt</code> with <code>_id</code> as a tie-breaker, with a one-minute overlap to absorb clock skew. Each collection's state (cursor, documents processed, last error) lives in its own table, so a failed run resumes where it stopped.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Presupuesto de tiempo y lotes a la medida de cada colección</h3>
+            <h3 class="l-en">A time budget and batch sizes tuned per collection</h3>
+            <div class="l-es">
+              <p>Cada corrida tiene un tope de 22 segundos para no chocar con el límite de la función serverless; si se acaba el tiempo, guarda el cursor y sale. Las reservas son documentos muy pesados: con lotes de 2.000 la petición superaba el límite del proxy y se cortaba, así que esa colección usa lotes de 250 y el resto, de 2.000.</p>
+            </div>
+            <div class="l-en">
+              <p>Each run is capped at 22 seconds to stay under the serverless time limit; when time runs out it saves the cursor and exits. Bookings are very heavy documents: with 2,000-row batches the request exceeded the proxy limit and got cut, so that collection uses batches of 250 and the rest use 2,000.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Tolerancia a datos reales (y sucios)</h3>
+            <h3 class="l-en">Tolerance for real (and dirty) data</h3>
+            <div class="l-es">
+              <p>El mapeo acepta el mismo campo con distintos nombres (<code>routeId</code>, <code>route_id</code>, <code>ruta</code>). Las fechas se convierten con una función segura que devuelve nulo en vez de romper la consulta. Y encontré documentos con <code>updatedAt</code> en el futuro: si el cursor avanzaba hasta ahí, se saltaba para siempre todo lo legítimo, así que lo limito a la hora actual.</p>
+            </div>
+            <div class="l-en">
+              <p>The mapping accepts the same field under different names (<code>routeId</code>, <code>route_id</code>, <code>ruta</code>). Dates go through a safe conversion that returns null instead of breaking the query. And I found documents with an <code>updatedAt</code> in the future: if the cursor moved there it would skip every legitimate document forever, so I clamp it to the current time.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Backfills controlados tras una migración de clúster</h3>
+            <h3 class="l-en">Controlled backfills after a cluster migration</h3>
+            <div class="l-es">
+              <p>Cuando un cliente migró MongoDB a otro clúster, algunos documentos llegaron con un <code>updatedAt</code> anterior al cursor y no entraban. Agregué parámetros para reiniciar una colección, sincronizar solo algunas o recorrer desde una fecha, y así recuperar los datos sin borrar nada.</p>
+            </div>
+            <div class="l-en">
+              <p>When a client moved MongoDB to a new cluster, some documents arrived with an <code>updatedAt</code> older than the cursor and were never picked up. I added parameters to reset a collection, sync only some of them, or re-walk from a given date, recovering the data without deleting anything.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Precalcular en SQL en lugar de calcular en cada visita</h3>
+            <h3 class="l-en">Precompute in SQL instead of on every visit</h3>
+            <div class="l-es">
+              <p>Las métricas demográficas (edad, sexo, ciudad, nivel de membresía) salen de una tabla de hechos que se reconstruye cuando termina la sincronización de usuarios, con índices en las columnas de filtro. El dashboard consulta funciones SQL que ya devuelven el agregado y el período previo para la comparación.</p>
+            </div>
+            <div class="l-en">
+              <p>Demographic metrics (age, sex, city, membership tier) come from a fact table rebuilt when the user sync finishes, with indexes on the filter columns. The dashboard calls SQL functions that already return the aggregate plus the previous period for comparison.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Avisar cuando los datos dejan de llegar</h3>
+            <h3 class="l-en">Warn when data stops arriving</h3>
+            <div class="l-es">
+              <p>Un día los gráficos cayeron a cero y la sincronización seguía «sin errores»: la fuente había dejado de enviar documentos. Desde entonces el dashboard compara la hora del último documento recibido con la actual y muestra un aviso de frescura, para que nadie lea un cero como una caída de ventas.</p>
+            </div>
+            <div class="l-en">
+              <p>One day the charts dropped to zero while the sync reported "no errors": the source had stopped sending documents. Since then the dashboard compares the time of the last document received with the current time and shows a freshness warning, so nobody reads a zero as a sales drop.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Un PDF que se dibuja, no que se fotografía</h3>
+            <h3 class="l-en">A PDF that is drawn, not photographed</h3>
+            <div class="l-es">
+              <p>La primera versión capturaba la pantalla de cada bloque: salían controles de edición dentro de las imágenes, tarjetas cortadas y páginas vacías. La reescribí con un registro de bloques donde cada uno sabe dibujarse en pantalla y en PDF (texto vectorial, tablas nativas, gráficos con los mismos datos), con portada, índice y paginación.</p>
+            </div>
+            <div class="l-en">
+              <p>The first version screenshotted each block: edit controls showed up inside the images, cards were cut in half and some pages came out empty. I rewrote it around a block registry where each block knows how to draw itself on screen and in the PDF (vector text, native tables, charts from the same data), with a cover, contents and pagination.</p>
+            </div>
+          </article>
+
+          <article class="dec">
+            <h3 class="l-es">Una plantilla, tres clientes</h3>
+            <h3 class="l-en">One template, three clients</h3>
+            <div class="l-es">
+              <p>Después del primer cliente separé lo específico (credenciales, prefijo de tablas, marca, colores) de lo común (sincronización, capa analítica, bloques, PDF). Los otros dos despliegues reutilizaron esa base y solo añadieron lo propio de cada negocio, como el módulo de millas del programa de lealtad.</p>
+            </div>
+            <div class="l-en">
+              <p>After the first client I separated what was specific (credentials, table prefix, brand, colours) from what was shared (sync, analytics layer, blocks, PDF). The other two deployments reused that base and only added what was unique to each business, such as the loyalty programme's miles module.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── Dashboard ────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">05</span><span class="l-es">Qué muestra el dashboard</span><span class="l-en">What the dashboard shows</span></h2>
+        <div class="cs-grid2">
+          <div class="cs-card">
+            <h3 class="l-es">Visión general</h3><h3 class="l-en">Overview</h3>
+            <p class="l-es">Ingresos emitidos, boletos, ticket promedio y conversión contra el período previo; ingresos diarios con media móvil; estado de reservas; métodos de pago y canales.</p>
+            <p class="l-en">Issued revenue, tickets, average ticket and conversion vs. the previous period; daily revenue with a moving average; booking status; payment methods and channels.</p>
+          </div>
+          <div class="cs-card">
+            <h3 class="l-es">Rutas</h3><h3 class="l-en">Routes</h3>
+            <p class="l-es">Ingresos por ruta, anticipación de compra, mapa de calor de anticipación por día de la semana y pasajeros directos frente a conexión.</p>
+            <p class="l-en">Revenue by route, booking window, a heatmap of booking window by weekday, and direct vs. connecting passengers.</p>
+          </div>
+          <div class="cs-card">
+            <h3 class="l-es">Pasajeros y lealtad</h3><h3 class="l-en">Passengers and loyalty</h3>
+            <p class="l-es">Edad y sexo, tamaño del grupo, viajeros frecuentes, millas otorgadas y redimidas, y afiliados por nivel.</p>
+            <p class="l-en">Age and sex, party size, frequent flyers, miles awarded and redeemed, and members by tier.</p>
+          </div>
+          <div class="cs-card">
+            <h3 class="l-es">Vista personalizada</h3><h3 class="l-en">Custom view</h3>
+            <p class="l-es">Cada usuario elige los bloques que le importan y los exporta como reporte PDF con los filtros aplicados.</p>
+            <p class="l-en">Each user picks the blocks they care about and exports them as a PDF report with the filters applied.</p>
+          </div>
+        </div>
+        <p class="cs-cta">
+          <a class="cs-button" href="/demo/airline-bi/" target="_top"><span class="l-es">Explorar la demo</span><span class="l-en">Explore the demo</span> ↗</a>
+        </p>
+      </section>
+
+      <!-- ── How it was built ─────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">06</span><span class="l-es">Cómo lo construí</span><span class="l-en">How I built it</span></h2>
+        <div class="cs-prose">
+          <div class="l-es">
+            <p>Trabajé con desarrollo asistido por IA (Lovable) para escribir buena parte del código. Mi trabajo estuvo en lo que la herramienta no decide sola: qué preguntas debía responder el dashboard, cómo modelar los datos, qué calcular en SQL y qué en la interfaz, y sobre todo verificar que cada número cuadrara con consultas directas a la fuente.</p>
+            <p>Esa verificación fue la parte más larga. Cuando una cifra no coincidía con MongoDB, la causa casi nunca era el gráfico: era una definición (qué cuenta como reserva «emitida», en qué zona horaria cae un día) o un dato de origen inesperado.</p>
+          </div>
+          <div class="l-en">
+            <p>I used AI-assisted development (Lovable) to write much of the code. My work was in what the tool does not decide on its own: which questions the dashboard had to answer, how to model the data, what to compute in SQL versus the interface, and above all verifying that every number reconciled with direct queries to the source.</p>
+            <p>That verification took the longest. When a figure didn't match MongoDB, the cause was almost never the chart: it was a definition (what counts as an "issued" booking, which time zone a day falls in) or unexpected source data.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Next ─────────────────────────────────────── -->
+      <section class="cs-section">
+        <h2 class="cs-h2"><span class="num mono">07</span><span class="l-es">Qué haría a continuación</span><span class="l-en">What I would do next</span></h2>
+        <ul class="cs-list">
+          <li class="l-es">Autenticación y permisos por rol del lado del servidor, para que cada área vea solo sus datos.</li>
+          <li class="l-en">Server-side authentication and role-based permissions, so each team only sees its own data.</li>
+          <li class="l-es">Pruebas automáticas de conciliación que comparen los totales diarios con la fuente y alerten si se separan.</li>
+          <li class="l-en">Automated reconciliation tests that compare daily totals with the source and alert when they drift.</li>
+          <li class="l-es">Extraer la plantilla a un paquete con configuración por cliente, en vez de copiar el proyecto.</li>
+          <li class="l-en">Extract the template into a package with per-client configuration, instead of copying the project.</li>
+        </ul>
+      </section>
+
+      <!-- ── About the demo ───────────────────────────── -->
+      <section class="cs-section cs-note">
+        <h2 class="cs-h2"><span class="num mono">—</span><span class="l-es">Sobre la demo</span><span class="l-en">About the demo</span></h2>
+        <div class="cs-prose">
+          <p class="l-es">Por confidencialidad, los clientes se mantienen anónimos y la demo usa una aerolínea ficticia con datos sintéticos generados con una semilla fija: dos años de reservas, pasajeros y millas con estacionalidad, crecimiento y adopción de la app. Reproduce las vistas, los filtros, la vista personalizada y el motor de PDF. No incluye el backend: las agregaciones que en producción hace SQL aquí se calculan en el navegador, y el panel de sincronización es una simulación.</p>
+          <p class="l-en">For confidentiality the clients remain anonymous and the demo uses a fictional airline with synthetic data generated from a fixed seed: two years of bookings, passengers and miles with seasonality, growth and app adoption. It reproduces the views, filters, custom view and PDF engine. It does not include the backend: the aggregations SQL performs in production are computed in the browser here, and the sync panel is a simulation.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cs-foot">
+      <div class="cs-wrap cs-foot-inner">
+        <span class="mono">Santiago Cárdenas</span>
+        <a class="mono" href="/#projects" target="_top"><span class="l-es">Volver al portafolio</span><span class="l-en">Back to portfolio</span> ↑</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/case/airline-bi/main.js"></script>
+  </body>
+</html>
