@@ -74,11 +74,11 @@ const Projects = () => {
                                 <div className="project-links">
                                     {project.demo ? (
                                         <>
-                                            <button className="text-link" onClick={() => setSelectedProject({ ...project, iframes: [project.demo] })}>
-                                                {t('proj_btn_demo')} <span className="arrow" aria-hidden="true">→</span>
-                                            </button>
                                             <button className="text-link" onClick={() => setSelectedProject(project)}>
                                                 {t(project.summaryLabel)}
+                                            </button>
+                                            <button className="text-link" onClick={() => setSelectedProject({ ...project, iframes: [project.demo] })}>
+                                                {t('proj_btn_demo')} <span className="arrow" aria-hidden="true">→</span>
                                             </button>
                                         </>
                                     ) : project.link ? (
