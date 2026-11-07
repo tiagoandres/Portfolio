@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import {
-  Plane, Database, Sun, Moon, X, Info, CalendarDays, LayoutGrid, Route as RouteIcon, UserCircle2,
+  Plane, Database, X, Info, CalendarDays, LayoutGrid, Route as RouteIcon, UserCircle2,
   Coins, Sparkles, Building2, Download, CheckCircle2,
 } from 'lucide-react';
 import { generateDataset, isoDay } from './data.js';
@@ -129,7 +129,6 @@ function CustomView({ blocks, t, meta, lang }) {
 
 export default function App() {
   const [lang, setLang] = useState(() => (readStore('portfolio_lang', 'ES') === 'EN' ? 'EN' : 'ES'));
-  const [theme, setTheme] = useState(() => document.documentElement.getAttribute('data-theme') || 'light');
   const t = useCallback((key) => STRINGS[lang][key] ?? STRINGS.ES[key] ?? key, [lang]);
   const f = useMemo(() => makeFormatters(lang), [lang]);
 
@@ -143,10 +142,6 @@ export default function App() {
   });
   const [syncOpen, setSyncOpen] = useState(false);
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    writeStore('portfolio_theme', theme);
-  }, [theme]);
   useEffect(() => {
     writeStore('portfolio_lang', lang);
     document.documentElement.lang = lang === 'EN' ? 'en' : 'es';
@@ -211,10 +206,6 @@ export default function App() {
             </button>
             <button className="icon-btn lang" onClick={() => setLang(lang === 'ES' ? 'EN' : 'ES')} aria-label="Language">
               {lang === 'ES' ? 'EN' : 'ES'}
-            </button>
-            <button className="icon-btn" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              aria-label={theme === 'dark' ? t('themeLight') : t('themeDark')} title={theme === 'dark' ? t('themeLight') : t('themeDark')}>
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             {!framed && (
               <a className="icon-btn back" href="/#projects" title={t('back')} aria-label={t('back')}>
