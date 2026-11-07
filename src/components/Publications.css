@@ -51,6 +51,74 @@
     gap: 1rem;
 }
 
+/* Manuscripts (under review / in preparation) */
+.manuscripts {
+    margin-top: 3rem;
+}
+
+.manuscripts-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+}
+
+.ms-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-strong);
+}
+
+.ms-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem 2rem;
+    align-items: baseline;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.ms-ref {
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    padding-left: 2rem;
+    text-indent: -2rem;
+}
+
+.ms-ref em {
+    color: var(--ink);
+}
+
+.ms-me {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.ms-status {
+    white-space: nowrap;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+}
+
+.ms-status.is-review {
+    color: var(--accent);
+}
+
+@media (max-width: 760px) {
+    .ms-item {
+        grid-template-columns: 1fr;
+    }
+
+    .ms-status {
+        justify-self: start;
+    }
+}
+
 @media (max-width: 760px) {
     .pub-list {
         grid-template-columns: 1fr;

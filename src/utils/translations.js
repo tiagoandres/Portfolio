@@ -84,11 +84,14 @@ export const translations = {
         proj_btn_summary: "Ver resumen",
 
         // Publications
-        pub_title: "Investigación publicada",
-        pub_subtitle: "Artículos académicos publicados en el área de psicometría y salud mental.",
+        pub_title: "Investigación",
+        pub_subtitle: "Artículos académicos en el área de psicometría y salud mental.",
         pub1_desc: "Desarrollo y validación psicométrica de un instrumento para medir la búsqueda de sensaciones en población hispanohablante.",
         pub2_desc: "Construcción y validación de una escala para evaluar el bienestar psicológico y la salud mental desde una perspectiva positiva.",
         pub_btn_view: "Leer",
+        pub_ms_title: "Manuscritos en revisión y en preparación",
+        pub_ms_review: "En revisión",
+        pub_ms_prep: "En preparación",
 
         // Contact
         contact_title: "Contáctame",
@@ -200,11 +203,14 @@ export const translations = {
         proj_btn_summary: "View summary",
 
         // Publications
-        pub_title: "Published research",
-        pub_subtitle: "Academic articles published in the field of psychometrics and mental health.",
+        pub_title: "Research",
+        pub_subtitle: "Academic articles in the field of psychometrics and mental health.",
         pub1_desc: "Development and psychometric validation of an instrument to measure sensation seeking in the Spanish-speaking population.",
         pub2_desc: "Construction and validation of a scale to evaluate psychological well-being and mental health from a positive perspective.",
         pub_btn_view: "Read",
+        pub_ms_title: "Manuscripts under review and in preparation",
+        pub_ms_review: "Under review",
+        pub_ms_prep: "In preparation",
 
         // Contact
         contact_title: "Contact Me",

@@ -22,6 +22,51 @@ const publications = [
     }
 ];
 
+// Manuscripts under review or in preparation (APA reference style).
+const manuscripts = [
+    {
+        id: 'm1',
+        authors: "Camacho, C., Cárdenas, S. y Mora, C.",
+        year: 2026,
+        title: "Exposición a noticias y prejuicio implícito racial: un estudio cuasi-experimental en estudiantes universitarios",
+        status: 'review'
+    },
+    {
+        id: 'm2',
+        authors: "Cárdenas, S.",
+        year: 2026,
+        title: "Implicaciones en la construcción de pruebas de papel y lápiz vs. pruebas computarizadas: una revisión sistemática",
+        status: 'prep'
+    },
+    {
+        id: 'm3',
+        authors: "Cárdenas, S.",
+        year: 2025,
+        title: "El análisis factorial exploratorio y confirmatorio en la construcción de instrumentos psicológicos estandarizados",
+        status: 'prep'
+    },
+    {
+        id: 'm4',
+        authors: "Abello, A., Camacho, J., Martinez, Y., Silva, M. y Cárdenas, S.",
+        year: 2025,
+        title: "Construcción y propiedades psicométricas de la Escala de Salud Mental en Estudiantes Universitarios (ESMEU)",
+        status: 'review'
+    }
+];
+
+const ME = "Cárdenas, S.";
+
+// Highlights the author's own name inside the author list.
+const Authors = ({ text }) => {
+    const parts = text.split(ME);
+    return parts.map((part, i) => (
+        <React.Fragment key={i}>
+            {part}
+            {i < parts.length - 1 && <strong className="ms-me">{ME}</strong>}
+        </React.Fragment>
+    ));
+};
+
 const Publications = () => {
     const { t } = useLanguage();
     const [selectedPdf, setSelectedPdf] = useState(null);
@@ -49,6 +94,22 @@ const Publications = () => {
                                 </div>
                             </article>
                         ))}
+                    </div>
+
+                    <div className="manuscripts">
+                        <h3 className="manuscripts-title">{t('pub_ms_title')}</h3>
+                        <ol className="ms-list">
+                            {manuscripts.map((ms) => (
+                                <li key={ms.id} className="ms-item">
+                                    <p className="ms-ref">
+                                        <Authors text={ms.authors} /> ({ms.year}). <em>{ms.title}</em>.
+                                    </p>
+                                    <span className={`ms-status meta is-${ms.status}`}>
+                                        {t(ms.status === 'review' ? 'pub_ms_review' : 'pub_ms_prep')}
+                                    </span>
+                                </li>
+                            ))}
+                        </ol>
                     </div>
                 </div>
             </div>
